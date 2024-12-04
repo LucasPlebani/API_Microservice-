@@ -58,9 +58,14 @@ const tokenPayload = {
     };
     
     async function generateToken(req, user, tokenModel) {
-
-    };
+        let deviceFingerprint = generateDeviceFingerprint(req);
+        tokenPlayload.userId = user._id;
+        let deviceAndToken = deviceFingerprint + tokenPlayload.userId;
+      
+        return { deviceFingerprint };
+      }
     
     async function verifyToken(tokenId, req){
 
     };
+    module.exports = { generateNonce, generateToken, verifyToken };

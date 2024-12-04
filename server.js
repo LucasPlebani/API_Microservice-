@@ -3,7 +3,7 @@ const app = express();
 const port = 3000;
 
 const { MongoClient, ServerApiVersion } = require("mongodb");
-const userRoutes = require("./src/routes/user");
+const userRoutes = require("./src/routes/UserRouter");
 //const authRoutes = require("./src/utils/token.utils");
 
 // Connexion MongoDB
