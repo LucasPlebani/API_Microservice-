@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const UserModel = require('../models/UserModels');
+const { generateToken } = require('../../utils/tokenUtils');
 
 exports.signup = async (req, res, next) => {
     console.log('Requête reçue :', req.body);
@@ -22,8 +23,15 @@ exports.signup = async (req, res, next) => {
             salt: newUser.salt
         });
 
+        // Ajouter l'ID à newUser avant de générer le token
+        newUser._id = result.insertedId;
+        const token = await generateToken(req, newUser);
+
         console.log('Utilisateur créé avec succès !', result);
-        res.status(201).json({ message: 'Utilisateur créé !' });
+        res.status(201).json({ 
+            message: 'Utilisateur créé !',
+            token: token
+        });
 
     } catch (error) {
         console.error('Erreur lors de la création de l\'utilisateur :', error);
@@ -48,6 +56,12 @@ exports.login = async (req, res, next) => {
         if (!validPassword) {
             return res.status(401).json({ message: 'Paire login/mot de passe incorrecte' });
         }
+
+        const token = await generateToken(req, user);
+        res.status(200).json({ 
+            message: 'Connexion réussie !',
+            token: token.insertedId
+        });
 
         console.log('Connexion réussie pour l\'utilisateur :', user.email);
         res.status(200).json({ message: 'Connexion réussie !' });

@@ -1,71 +1,93 @@
-const tokenPayload = {
-    userId: user._id.toString(),
-    role:"user",
-    issueAt: Date.now(),
-    expiresIn: Date.nom()+(900*1000),
-    nonce: 0,
-    proofOfWork: "",
-    scope: ["read", "write"],
-    issuer: "authServer",
-    deviceFingerprint: generateDeviceFingerprint(req)
-    
-    };
-    
-    const { nonce, proofOfWork } = generateNonce(tokenPayload) ;
-    tokenPayload.nonce = nonce;
-    tokenPayload.proofOfWork = proofOfWork;
-    
-    
-    //crypto
+const { generateDeviceFingerprint } = require('../utils/securityUtils');
+const { sha256 } = require('js-sha256');
+const { ObjectId } = require('mongodb');
 
-    const crypto = ('require');
-
-        function generateDeviceFingerprint(req) {
-            const userAgent = req.headers['user-agent'] || '';
-            const ip = req.ip || '';
-            const timezone = req.headers ['timezone'] || '';
-            const fingerPrintData = `${userAgent}-${ip}-${timezone}`;
-            return crypto.createHash('sha256').update(fingerPrintData).digest('hex');
+// Fonction de génération du nonce et de la preuve de travail
+function generateNonce(infos, difficulty = 3) {
+    let nonce = 0;
+    const targetPrefix = "0".repeat(difficulty);
+    
+    while (true) {
+        const dataToHash = `${JSON.stringify(infos)}${nonce}`;
+        const hash = sha256(dataToHash);
+        if (hash.startsWith(targetPrefix)) {
+            return { nonce, proofOfWork: hash };
         }
-        module.exports = {
-            generateDeviceFingerprint
-        };
-//function generateNonce 
-
-    function generateNonce(infos, difficulty = 3){
-        let nonce = 0;
-        const targetPrefix = "0".repeat(difficulty);
-
-        while(true){
-            const dataToHash = `${JSON.stringify(infos)}${nonce}`;
-            const hash = sha256(dataToHash);
-
-            if (hash.starsWith(targetPrefix)) {
-                return { nonce, proofOfWork: hash }
-            }
-            nonce++;
-        }
+        nonce++;
     }
+}
 
-    //tokenUtils.js
-    const { ObjectId } = require('mongodb');
-    const sha256 = require('js-sha256');
-    const { generateDeviceFingerprint } = require ('');
-    
-    function generateNonce(infos, difficulty = 3){ };
-    
-        function verifyNonce(infos, nonce, proofOfWork, difficulty = 3) {   
-    };
-    
-    async function generateToken(req, user, tokenModel) {
-        let deviceFingerprint = generateDeviceFingerprint(req);
-        tokenPlayload.userId = user._id;
-        let deviceAndToken = deviceFingerprint + tokenPlayload.userId;
-      
-        return { deviceFingerprint };
-      }
-    
-    async function verifyToken(tokenId, req){
+// Fonction de vérification du nonce et de la preuve de travail
+function verifyNonce(infos, nonce, proofOfWork, difficulty = 3) {
+    const targetPrefix = "0".repeat(difficulty);
+    const dataToHash = `${JSON.stringify(infos)}${nonce}`;
+    const expectedHash = sha256(dataToHash);
+    return expectedHash === proofOfWork && expectedHash.startsWith(targetPrefix);
+}
 
+// Fonction pour générer un token
+async function generateToken(req, user) {
+    if (!user) throw new Error('Utilisateur non trouvé');
+    if (!user._id) throw new Error('ID utilisateur manquant');
+
+    const db = req.app.locals.db;
+    const tokensCollection = db.collection("tokens");  // Utiliser la collection tokens directement
+
+    // Convertir l'ID en string s'il ne l'est pas déjà
+    const userId = typeof user._id === 'string' ? user._id : user._id.toString();
+
+    const deviceFingerprint = generateDeviceFingerprint(req);
+    const issueAt = Date.now();
+    const expiresIn = issueAt + 900 * 1000; // 15 minutes de validité
+
+    const { nonce, proofOfWork } = generateNonce({ userId: userId, deviceFingerprint });
+
+    const tokenPayload = {
+        userId: userId,
+        role: "user",
+        issueAt,
+        expiresIn,
+        nonce,
+        proofOfWork,
+        scope: ["read", "write"],
+        issuer: "authServer",
+        deviceFingerprint
     };
-    module.exports = { generateNonce, generateToken, verifyToken };
+
+    // Utiliser tokensCollection au lieu de tokenModel
+    const result = await tokensCollection.insertOne(tokenPayload);
+    return result;
+}
+
+// Vérification du token
+async function verifyToken(tokenId, req) {
+    try {
+        const db = req.app.locals.db;
+        const tokensCollection = db.collection("tokens");
+        
+        const tokenData = await tokensCollection.findOne({ _id: new ObjectId(tokenId) });
+        if (!tokenData) return { isValid: false, error: "Token introuvable" };
+
+        const token = tokenData;
+        if (Date.now() > token.expiresIn) return { isValid: false, error: "Token expiré" };
+
+        const isValidNonce = verifyNonce(
+            { userId: token.userId, role: token.role, issueAt: token.issueAt, expiresIn: token.expiresIn, scope: token.scope, issuer: token.issuer, deviceFingerprint: token.deviceFingerprint },
+            token.nonce,
+            token.proofOfWork
+        );
+
+        if (!isValidNonce) return { isValid: false, error: "Nonce ou preuve de travail invalide" };
+
+        const requestFingerprint = generateDeviceFingerprint(req);
+        if (requestFingerprint !== token.deviceFingerprint) return { isValid: false, error: "Empreinte de l'appareil non reconnue" };
+
+        return { isValid: true, payload: token };
+    } catch (error) {
+        console.error("Erreur lors de la vérification du token :", error);
+        return { isValid: false, error: "Erreur serveur" };
+    }
+}
+
+
+module.exports = { generateToken, verifyToken, generateNonce, verifyNonce };

@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const router = require('../src/routes/UserRouter');
+
 
 module.exports = (req, res, next) => {
     try {   
@@ -13,6 +15,9 @@ res.status(401).json({ error });
     }
     next();
 };
+
+
+
 //add verify nonce 
 // add verify token 
 //

@@ -2,9 +2,10 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const userRoutes = require("./src/routes/UserRouter");
-//const authRoutes = require("./src/utils/token.utils");
+//const authRoutes = require("./src/utils/token.utils"); utilisation plus tard pour les routes à authentification
 
 // Connexion MongoDB
 const uri = "mongodb+srv://lucasplebani:hN1e4bZKgSJ3JQih@cluster0.ghtaz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
@@ -34,6 +35,7 @@ async function run() {
     });
 
     app.use("/", userRoutes);
+    app.use('/api', userRoutes);
     //app.use("/", authRoutes);
   
     
