@@ -1,11 +1,10 @@
 const express = require("express");
-const app = express();
-const port = 3000;
-
-
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const userRoutes = require("./src/routes/UserRouter");
-//const authRoutes = require("./src/utils/token.utils"); utilisation plus tard pour les routes à authentification
+const marchandiseRoutes = require("./src/routes/router");
+
+const app = express();
+const port = 3000;
 
 // Connexion MongoDB
 const uri = "mongodb+srv://lucasplebani:hN1e4bZKgSJ3JQih@cluster0.ghtaz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
@@ -18,6 +17,7 @@ const client = new MongoClient(uri, {
   },
 });
 
+// Middleware global pour parser JSON
 app.use(express.json());
 
 async function run() {
@@ -25,29 +25,33 @@ async function run() {
     await client.connect();
     const database = client.db("ExpressLucas");
     app.locals.db = database;
-    const userCollection = database.collection("users"); 
     console.log("Connexion réussie à MongoDB");
 
-    // Middleware pour ajouter la collection à chaque requête
+    //init marchandises
+    marchandiseController.init(database.collection("marchandises"));
+console.log("Connexion réussie à MongoDB et initialisation du modèle");
+app.use('/api/marchandises', marchandiseRoutes); // Routes marchandises
+
+    // Middleware pour injecter la collection "users" dans req
     app.use((req, res, next) => {
-      req.userCollection = userCollection;
+      req.userCollection = database.collection("users");
       next();
     });
 
-    app.use("/", userRoutes);
-    app.use('/api', userRoutes);
-    //app.use("/", authRoutes);
-  
-    
+    // Enregistrement des routes
+    app.use('/api/auth', userRoutes); // Routes utilisateur
+
+    // Lancement du serveur
     app.listen(port, () => {
       console.log(`API en cours d'exécution sur http://localhost:${port}`);
     });
   } catch (err) {
-    console.error(err);
+    console.error("Erreur de connexion à MongoDB :", err);
   }
 }
 
 run().catch(console.dir);
+
 
 
 

@@ -1,15 +1,13 @@
 const express = require("express");
-//const auth = require('../../middleware/auth');
+const authMiddleware = require('../../middleware/auth');
 const router = express.Router();
 const marchandiseController = require("../controllers/marchandiseController");
+authMiddleware
 
-router.get("/marchandises", marchandiseController.getAllMarchandises);
-router.get("/marchandise/:id", marchandiseController.getMarchandise);
-router.post("/createMarchandise",  marchandiseController.createMarchandise);
-router.put("/updateMarchandise/:id", marchandiseController.updateMarchandise);
-router.delete(
-  "/deleteMarchandise/:id",
-  marchandiseController.deleteMarchandise
-);
+router.get('/', marchandiseController.getAllMarchandises);
+router.get('/:id', marchandiseController.getMarchandise); 
+router.post('/', authMiddleware, marchandiseController.createMarchandise);
+router.put('/:id',  authMiddleware, marchandiseController.updateMarchandise); 
+router.delete('/:id',  authMiddleware, marchandiseController.deleteMarchandise); 
 
 module.exports = router;

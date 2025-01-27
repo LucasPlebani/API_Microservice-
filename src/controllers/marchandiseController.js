@@ -9,9 +9,9 @@ exports.init = (collection) => {
 exports.getAllMarchandises = async (req, res) => {
   try {
     const marchandises = await marchandiseModel.getAll();
-    res.json(marchandises);
+    return res.json(marchandises); 
   } catch (err) {
-    res
+    return res
       .status(500)
       .json({ message: "Erreur lors de la récupération des marchandises" });
   }

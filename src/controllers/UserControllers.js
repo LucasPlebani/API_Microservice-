@@ -40,34 +40,36 @@ exports.signup = async (req, res, next) => {
 };
 
 exports.login = async (req, res, next) => {
-    console.log('Tentative de connexion :', req.body);
+    console.log("Tentative de connexion :", req.body);
 
     try {
         const usersCollection = req.app.locals.db.collection("users");
 
-        // search user by email
+        // Rechercher l'utilisateur par email
         const user = await usersCollection.findOne({ email: req.body.email });
         if (!user) {
-            return res.status(401).json({ message: 'Paire login/mot de passe incorrecte' });
+            return res.status(401).json({ message: "Paire login/mot de passe incorrecte" });
         }
 
-        // hash salt 
+        // Vérifier le mot de passe
         const validPassword = await bcrypt.compare(req.body.password, user.password);
         if (!validPassword) {
-            return res.status(401).json({ message: 'Paire login/mot de passe incorrecte' });
+            return res.status(401).json({ message: "Paire login/mot de passe incorrecte" });
         }
 
+        // Générer un token
         const token = await generateToken(req, user);
-        res.status(200).json({ 
-            message: 'Connexion réussie !',
-            token: token.insertedId
+
+        // Envoyer une réponse unique avec le token
+        console.log("Connexion réussie pour l'utilisateur :", user.email);
+        return res.status(200).json({
+            message: "Connexion réussie !",
+            token: token.insertedId,
         });
-
-        console.log('Connexion réussie pour l\'utilisateur :', user.email);
-        res.status(200).json({ message: 'Connexion réussie !' });
-
     } catch (error) {
-        console.error('Erreur lors de la connexion :', error);
-        res.status(500).json({ error: error.message });
+        console.error("Erreur lors de la connexion :", error);
+
+        // Envoyer une réponse en cas d'erreur
+        return res.status(500).json({ error: error.message });
     }
 };
