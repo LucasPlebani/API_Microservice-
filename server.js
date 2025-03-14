@@ -1,7 +1,7 @@
 const express = require("express");
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const userRoutes = require("./src/routes/UserRouter");
-const marchandiseRoutes = require("./src/routes/router");
+//const marchandiseRoutes = require("./src/routes/router");
 
 const app = express();
 const port = 3000;
@@ -28,9 +28,9 @@ async function run() {
     console.log("Connexion réussie à MongoDB");
 
     //init marchandises
-    marchandiseController.init(database.collection("marchandises"));
-console.log("Connexion réussie à MongoDB et initialisation du modèle");
-app.use('/api/marchandises', marchandiseRoutes); // Routes marchandises
+//    marchandiseController.init(database.collection("marchandises"));
+//console.log("Connexion réussie à MongoDB et initialisation du modèle");
+//app.use('/api/marchandises', marchandiseRoutes); // Routes marchandises
 
     // Middleware pour injecter la collection "users" dans req
     app.use((req, res, next) => {
