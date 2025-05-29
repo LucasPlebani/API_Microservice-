@@ -8,9 +8,10 @@ exports.signup = async (req, res, next) => {
     try { 
         // Génération salt | hash password | création user
         const salt = await bcrypt.genSalt(10);
+        console.log("Salt généré :", salt);
         const hash = await bcrypt.hash(req.body.password, salt);
-        const newUser = new UserModel(req.body.name, req.body.email, hash, salt);
-
+        const newUser = new UserModel(req.body.name, req.body.surname, req.body.email, hash, salt);
+        console.log("Salt dans l'objet newUser :", newUser.salt);
         //connection à la collection users 
         const db = req.app.locals.db;
         const usersCollection = db.collection("users");
@@ -18,6 +19,7 @@ exports.signup = async (req, res, next) => {
         // Insertion de l'utilisateur dans la base de données
         const result = await usersCollection.insertOne({
             name: newUser.name,
+            surname: newUser.surname,
             email: newUser.email,
             password: newUser.password, 
             salt: newUser.salt

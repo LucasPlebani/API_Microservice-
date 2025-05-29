@@ -2,16 +2,15 @@ const express = require("express");
 const cors = require("cors");
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const userRoutes = require("./src/routes/UserRouter");
-
-//const marchandiseRoutes = require("./src/routes/router");
-
+const marchandiseRoutes = require("./src/routes/router");
+const marchandiseController = require("./src/controllers/marchandiseController");
 require("dotenv").config();
 
 const app = express();
 
 // Connexion MongoDB
 const uri = process.env.DB_URL;
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3000;
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -33,9 +32,9 @@ async function run() {
     console.log("Connexion réussie à MongoDB");
 
     //init marchandises
-    //    marchandiseController.init(database.collection("marchandises"));
-    //console.log("Connexion réussie à MongoDB et initialisation du modèle");
-    //app.use('/api/marchandises', marchandiseRoutes); // Routes marchandises
+   marchandiseController.init(database.collection("marchandises"));
+console.log("Connexion réussie à MongoDB et initialisation du modèle");
+app.use('/api/marchandises', marchandiseRoutes); // Routes marchandises
 
     // Middleware pour injecter la collection "users" dans req
     app.use((req, res, next) => {

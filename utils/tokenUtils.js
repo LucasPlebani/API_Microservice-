@@ -38,7 +38,7 @@ async function generateToken(req, user) {
 
     const deviceFingerprint = generateDeviceFingerprint(req);
     const issueAt = Date.now();
-    const expiresIn = issueAt + 900 * 1000; // 15 minutes de validité
+    const expiresIn = issueAt + 900 * 1000; // 900 pour 15 minutes passage à 10 secondes pour les tests
 
     const { nonce, proofOfWork } = generateNonce({ userId: userId, deviceFingerprint });
 

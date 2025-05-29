@@ -43,6 +43,7 @@ const authMiddleware = async (req, res, next) => {
     console.error('Erreur d\'authentification:', error);
     return res.status(500).json({ message: 'Erreur serveur' });
   }
+
 };
 
 module.exports = authMiddleware;

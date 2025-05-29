@@ -1,7 +1,7 @@
 class UserModel {
-  constructor(name, firstname, email, password, salt) {
+  constructor(name, surname, email, password, salt) {
     this.name = name;
-    this.firstname = firstname;
+    this.surname = surname;
     this.email = email;
     this.password = password;
     this.salt = salt;
@@ -9,3 +9,4 @@ class UserModel {
 }
 
 module.exports = UserModel;
+
