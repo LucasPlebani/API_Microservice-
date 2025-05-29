@@ -1,10 +1,11 @@
 class UserModel {
-    constructor(name, email, password, salt) {
-      this.name = name;
-      this.email = email;
-      this.password = password;
-      this.salt = salt;
-    }
+  constructor(name, firstname, email, password, salt) {
+    this.name = name;
+    this.firstname = firstname;
+    this.email = email;
+    this.password = password;
+    this.salt = salt;
   }
-  
-  module.exports = UserModel;
+}
+
+module.exports = UserModel;
