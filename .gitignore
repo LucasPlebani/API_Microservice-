@@ -1,2 +1,17 @@
-node_modules/
-.env
+#Fichiers et dossiers globaux à ignorer
+.DS_Store
+Thumbs.db
+
+#AuthMicroservice - Backend
+authMicroservice/backend/node_modules/
+authMicroservice/backend/dist/
+authMicroservice/backend/.env
+authMicroservice/backend/logs/
+authMicroservice/backend/coverage/
+
+#AuthMicroservice - Frontend
+authMicroservice/frontend/node_modules/
+authMicroservice/frontend/dist/
+authMicroservice/frontend/.env
+authMicroservice/frontend/coverage/
+authMicroservice/frontend/.angular/cache/

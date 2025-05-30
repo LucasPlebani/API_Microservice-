@@ -1,0 +1,38 @@
+<div class="connectForm">
+  <h2>Inscription</h2>
+  <form (ngSubmit)="onSubmit()" class="loginForm">
+    <div>
+      <label for="name">Nom :</label>
+      <input type="text" id="name" [(ngModel)]="name" name="name" required />
+    </div>
+
+    <div>
+      <label for="firstname">Prénom :</label>
+      <input
+        type="text"
+        id="firstname"
+        [(ngModel)]="firstname"
+        name="firstname"
+        required
+      />
+    </div>
+
+    <div>
+      <label for="email">Email :</label>
+      <input type="text" id="email" [(ngModel)]="email" name="email" required />
+    </div>
+
+    <div>
+      <label for="password">Mot de passe :</label>
+      <input
+        type="password"
+        id="password"
+        [(ngModel)]="password"
+        name="password"
+        required
+      />
+    </div>
+
+    <button type="submit">Valider</button>
+  </form>
+</div>
