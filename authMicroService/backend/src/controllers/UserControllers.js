@@ -4,39 +4,74 @@ const { generateToken } = require("../../utils/tokenUtils");
 
 exports.signup = async (req, res, next) => {
   try {
-    // Génération salt | hash password | création user
-    const salt = await bcrypt.genSalt(10);
-    console.log("Salt généré :", salt);
-    const hash = await bcrypt.hash(req.body.password, salt);
-    const newUser = new UserModel(
-      req.body.name,
-      req.body.surname,
-      req.body.email,
-      hash,
-      salt
-    );
-    console.log("Salt dans l'objet newUser :", newUser.salt);
-    //console.log("Nouvel utilisateur :" + newUser);
-    //connection à la collection users
+    const { type, lastName, firstName, companyName, siren, email, password } =
+      req.body;
+
+    // Validations pour l'inscription
+
+    // si pas de type, pas d'email ou pas de mot de passe
+    if (!type || !email || !password) {
+      return res
+        .status(400)
+        .json({ message: "Type, email et mot de passe requis" });
+    }
+
+    // si un particulier n'a pas de nom ou prénom
+    if (type === "particulier" && (!lastName || !firstName)) {
+      return res
+        .status(400)
+        .json({ message: "Nom et prénom requis pour un particulier" });
+    }
+
+    // si un professionnel n'a pas de raison sociale ou de SIREN
+    if (type === "professionnel" && (!companyName || !siren)) {
+      return res.status(400).json({
+        message: "Raison sociale et SIREN requis pour un professionnel",
+      });
+    }
+
+    // Validation du format SIREN (9 chiffres)
+    if (type === "professionnel" && !/^\d{9}$/.test(siren)) {
+      return res
+        .status(400)
+        .json({ message: "Le SIREN doit contenir exactement 9 chiffres" });
+    }
+
+    // Validation du format email avec un @
+    if (!email.includes("@")) {
+      return res.status(400).json({ message: "L'email doit contenir un '@'" });
+    }
+
     const db = req.app.locals.db;
     const usersCollection = db.collection("users");
 
-    // Insertion de l'utilisateur dans la base de données
-    const result = await usersCollection.insertOne({
-      name: newUser.name,
-      surname: newUser.surname,
-      email: newUser.email,
-      password: newUser.password,
-      salt: newUser.salt,
+    const existingUser = await usersCollection.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email déjà utilisé" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const newUser = new UserModel({
+      type,
+      lastName,
+      firstName,
+      companyName,
+      siren,
+      email,
+      password: hashedPassword,
+      salt,
+      role: "user",
     });
 
-    // Ajouter l'ID à newUser avant de générer le token
+    const result = await usersCollection.insertOne(newUser);
+
     newUser._id = result.insertedId;
     const token = await generateToken(req, newUser);
 
-    console.log("Utilisateur créé avec succès !", result);
     res.status(201).json({
-      message: "Utilisateur créé !",
+      message: "Utilisateur créé avec succès",
       token: token,
     });
   } catch (error) {
@@ -50,30 +85,27 @@ exports.login = async (req, res, next) => {
 
   try {
     const usersCollection = req.app.locals.db.collection("users");
-
-    // Rechercher l'utilisateur par email
     const user = await usersCollection.findOne({ email: req.body.email });
+
     if (!user) {
       return res
         .status(401)
-        .json({ message: "Paire login/mot de passe incorrecte" });
+        .json({ message: "Login et/ou mot de passe incorrect" });
     }
 
-    // Vérifier le mot de passe
     const validPassword = await bcrypt.compare(
       req.body.password,
       user.password
     );
+
     if (!validPassword) {
       return res
         .status(401)
-        .json({ message: "Paire login/mot de passe incorrecte" });
+        .json({ message: "Login et/ou mot de passe incorrect" });
     }
 
-    // Générer un token
     const token = await generateToken(req, user);
 
-    // Envoyer une réponse unique avec le token
     console.log("Connexion réussie pour l'utilisateur :", user.email);
     return res.status(200).json({
       message: "Connexion réussie !",
@@ -81,8 +113,6 @@ exports.login = async (req, res, next) => {
     });
   } catch (error) {
     console.error("Erreur lors de la connexion :", error);
-
-    // Envoyer une réponse en cas d'erreur
     return res.status(500).json({ error: error.message });
   }
 };
