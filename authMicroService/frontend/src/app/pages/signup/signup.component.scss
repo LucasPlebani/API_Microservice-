@@ -40,7 +40,7 @@ h2 {
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  margin-left: 35%; // TODO ! A MODIFIER ET CENTRER
+  margin-left: 35%;
 
   .loginForm {
     display: flex;
@@ -64,7 +64,8 @@ h2 {
       text-align: left;
     }
 
-    input {
+    input,
+    select {
       width: 100%;
       padding: 10px;
       font-size: 14px;
