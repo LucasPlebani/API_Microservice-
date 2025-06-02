@@ -1,7 +1,7 @@
 class Marchandise {
-  constructor(id, nom, prix, volume) {
+  constructor(id, name, prix, volume) {
     this.id = id;
-    this.nom = nom;
+    this.name = name;
     this.prix = prix;
     this.volume = volume;
   }

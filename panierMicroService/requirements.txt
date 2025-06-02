@@ -1,0 +1,7 @@
+fastapi
+motor
+pydantic
+uvicorn
+python-dotenv
+fastapi
+fastapi[all]
