@@ -2,16 +2,31 @@
 .DS_Store
 Thumbs.db
 
-#AuthMicroservice - Backend
-authMicroservice/backend/node_modules/
-authMicroservice/backend/dist/
-authMicroservice/backend/.env
-authMicroservice/backend/logs/
-authMicroservice/backend/coverage/
+#AuthMicroservice
+authMicroservice/node_modules/
+authMicroservice/dist/
+authMicroservice/.env
+authMicroservice/logs/
+authMicroservice/coverage/
 
-#AuthMicroservice - Frontend
-authMicroservice/frontend/node_modules/
-authMicroservice/frontend/dist/
-authMicroservice/frontend/.env
-authMicroservice/frontend/coverage/
-authMicroservice/frontend/.angular/cache/
+#Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/coverage/
+frontend/tmp
+frontend/out-tsc
+frontend/bazel-out
+frontend/.angular/cache/
+frontend/npm-debug.log
+frontend/yarn-error.log
+frontend/.angular/cache
+frontend/.sass-cache/
+frontend/connect.lock
+frontend/coverage
+frontend/libpeerconnection.log
+frontend/testem.log
+frontend/typings
+
+#Panier
+paniermicroService/.env
