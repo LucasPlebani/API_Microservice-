@@ -1,0 +1,12 @@
+<div class="product-detail" *ngIf="product">
+  <img [src]="product.imageUrl" [alt]="product.name" />
+  <div class="details">
+    <h2>{{ product.name }}</h2>
+    <p class="price">{{ product.price | currency : "EUR" : "symbol" }}</p>
+    <p class="description">{{ product.description }}</p>
+  </div>
+</div>
+
+<ng-template #notFound>
+  <p>Produit non trouvé.</p>
+</ng-template>
