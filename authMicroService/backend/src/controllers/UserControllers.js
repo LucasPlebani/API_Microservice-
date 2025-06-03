@@ -4,7 +4,6 @@ const { generateToken } = require("../../utils/tokenUtils");
 
 exports.signup = async (req, res, next) => {
   try {
-<<<<<<< HEAD
     const { type, lastName, firstName, companyName, siren, email, password } =
       req.body;
 
@@ -43,22 +42,6 @@ exports.signup = async (req, res, next) => {
       return res.status(400).json({ message: "L'email doit contenir un '@'" });
     }
 
-=======
-    // Génération salt | hash password | création user
-    const salt = await bcrypt.genSalt(10);
-    console.log("Salt généré :", salt);
-    const hash = await bcrypt.hash(req.body.password, salt);
-    const newUser = new UserModel(
-      req.body.name,
-      req.body.surname,
-      req.body.email,
-      hash,
-      salt
-    );
-    console.log("Salt dans l'objet newUser :", newUser.salt);
-
-    //connection à la collection users
->>>>>>> 5dae5d8 ( add microservice panier)
     const db = req.app.locals.db;
     const usersCollection = db.collection("users");
 
@@ -81,9 +64,19 @@ exports.signup = async (req, res, next) => {
       salt,
       role: "user",
     });
-     // Vérification de l'insertion
-    console.log("Nouvel utilisateur :" + newUser.name + " " + newUser.surname + " " + newUser.email + " " + newUser.password + " " + newUser.salt);
-
+    // Vérification de l'insertion
+    console.log(
+      "Nouvel utilisateur :" +
+        newUser.name +
+        " " +
+        newUser.surname +
+        " " +
+        newUser.email +
+        " " +
+        newUser.password +
+        " " +
+        newUser.salt
+    );
 
     const result = await usersCollection.insertOne(newUser);
 
