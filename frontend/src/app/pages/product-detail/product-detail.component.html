@@ -1,8 +1,11 @@
+<button (click)="goBack()" class="product-back-button">Retour</button>
+
 <div class="product-detail" *ngIf="product">
   <img [src]="product.imageUrl" [alt]="product.name" />
   <div class="details">
     <h2>{{ product.name }}</h2>
     <p class="price">{{ product.price | currency : "EUR" : "symbol" }}</p>
+    <p>Vendu par : {{ product.store }}</p>
     <p class="description">{{ product.description }}</p>
   </div>
 </div>

@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './products.component.html',
-  styleUrls: ['./products.component.scss'],
+  styleUrl: './products.component.scss',
 })
 export class ProductsComponent {
   products = [
@@ -16,12 +16,14 @@ export class ProductsComponent {
       name: 'Moule à manqué',
       price: 19.99,
       imageUrl: 'https://picsum.photos/200',
+      store: 'Marmiton',
     },
     {
       id: 2,
       name: 'Batteur électrique',
       price: 29.99,
       imageUrl: 'https://picsum.photos/200',
+      store: 'Marmiton',
     },
   ];
 

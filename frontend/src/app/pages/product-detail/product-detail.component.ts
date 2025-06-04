@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 interface Product {
@@ -8,6 +8,7 @@ interface Product {
   price: number;
   imageUrl: string;
   description: string;
+  store: string;
 }
 
 @Component({
@@ -28,6 +29,7 @@ export class ProductDetailComponent {
       price: 19.99,
       imageUrl: 'https://picsum.photos/200',
       description: 'Un moule à manqué parfait pour vos gâteaux moelleux.',
+      store: 'Marmiton',
     },
     {
       id: 2,
@@ -36,13 +38,18 @@ export class ProductDetailComponent {
       imageUrl: 'https://picsum.photos/200',
       description:
         'Un batteur électrique puissant pour toutes vos préparations.',
+      store: 'Marmiton',
     },
   ];
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     this.productId = Number(this.route.snapshot.paramMap.get('id'));
     this.product = this.products.find((p) => p.id === this.productId);
+  }
+
+  goBack(): void {
+    this.router.navigate(['/products']);
   }
 }
