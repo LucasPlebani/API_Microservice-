@@ -1,15 +1,36 @@
 version: '3.8'
 
 services:
+
   nginx:
     build:
       context: ./nginx
     ports:
       - "8080:80"
     depends_on:
+      - auth
       - panier
     networks:
       - microservices
+
+  auth:
+    build:
+      context: ./authMicroService
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./authMicroService/.env
+    networks:
+      - microservices
+
+  mongodb:
+    image: mongo:6
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - microservices
+
 
   panier:
     build:
@@ -26,3 +47,4 @@ networks:
     driver: bridge
 
 
+   
