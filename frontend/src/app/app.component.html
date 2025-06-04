@@ -1,24 +1,25 @@
-<nav class="navBar">
-  <img
-    src="/images/MARIO_CART_LOGO_wbg.png"
-    alt="Logo MarioCart"
-    class="logo"
-  />
+<div class="page-wrapper">
+  <nav class="navBar">
+    <img
+      src="/images/MARIO_CART_LOGO_wbg.png"
+      alt="Logo MarioCart"
+      class="logo"
+    />
 
-  <ul class="linkNavBar">
-    <li class="cta"><a class="btn" routerLink="/">Accueil</a></li>
-    <li class="cta">
-      <a class="btn" routerLink="/signup">Inscription</a>
-    </li>
-    <li class="cta"><a class="btn" routerLink="/login">Connexion</a></li>
-    <!-- <li><a routerLink="/signal">Signal</a></li> -->
-  </ul>
-</nav>
+    <ul class="linkNavBar">
+      <li class="cta"><a class="btn" routerLink="/">Accueil</a></li>
+      <li class="cta">
+        <a class="btn" routerLink="/signup">Inscription</a>
+      </li>
+      <li class="cta"><a class="btn" routerLink="/login">Connexion</a></li>
+    </ul>
+  </nav>
 
-<main class="main-content">
-  <router-outlet></router-outlet>
-</main>
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
 
-<footer class="footer">
-  <p>&copy; 2025 MarioCart. Tous droits réservés.</p>
-</footer>
+  <footer class="footer">
+    <p>&copy; 2025 MarioCart. Tous droits réservés.</p>
+  </footer>
+</div>

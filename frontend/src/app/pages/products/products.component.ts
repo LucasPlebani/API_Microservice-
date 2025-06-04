@@ -25,6 +25,20 @@ export class ProductsComponent {
       imageUrl: 'https://picsum.photos/200',
       store: 'Marmiton',
     },
+    {
+      id: 3,
+      name: 'Item 3',
+      price: 59.99,
+      imageUrl: 'https://picsum.photos/200',
+      store: 'Magasin',
+    },
+    {
+      id: 4,
+      name: 'Item 4',
+      price: 99.99,
+      imageUrl: 'https://picsum.photos/200',
+      store: 'Magasin',
+    },
   ];
 
   constructor(private router: Router) {}
