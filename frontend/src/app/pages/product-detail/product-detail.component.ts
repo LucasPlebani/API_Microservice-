@@ -63,6 +63,24 @@ export class ProductDetailComponent {
       store: 'Magasin',
       rating: 2,
     },
+    {
+      id: 3,
+      name: 'Item 3',
+      price: 59.99,
+      imageUrl: 'https://picsum.photos/200',
+      description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget ligula hendrerit, malesuada elit et, aliquet magna. Integer vitae gravida mauris. Sed ut aliquet sapien. Quisque semper sit amet metus non pretium. Nullam eget cursus tellus. In vitae odio sed ipsum hendrerit aliquet. Pellentesque at mauris vel lectus tincidunt finibus eget fringilla diam. Morbi egestas augue et purus luctus, et commodo urna sodales.',
+      store: 'Magasin',
+    },
+    {
+      id: 4,
+      name: 'Item 4',
+      price: 99.99,
+      imageUrl: 'https://picsum.photos/200',
+      description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget ligula hendrerit, malesuada elit et, aliquet magna. Integer vitae gravida mauris. Sed ut aliquet sapien. Quisque semper sit amet metus non pretium. Nullam eget cursus tellus. In vitae odio sed ipsum hendrerit aliquet. Pellentesque at mauris vel lectus tincidunt finibus eget fringilla diam. Morbi egestas augue et purus luctus, et commodo urna sodales.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget ligula hendrerit, malesuada elit et, aliquet magna. Integer vitae gravida mauris. Sed ut aliquet sapien. Quisque semper sit amet metus non pretium. Nullam eget cursus tellus. In vitae odio sed ipsum hendrerit aliquet. Pellentesque at mauris vel lectus tincidunt finibus eget fringilla diam. Morbi egestas augue et purus luctus, et commodo urna sodales.',
+      store: 'Magasin',
+    },
   ];
 
   constructor(private route: ActivatedRoute, private router: Router) {}
