@@ -1,15 +1,19 @@
 FROM node:18-alpine
 
-# Crée un dossier de travail dans le conteneur
+# Création du répertoire de travail
 WORKDIR /app
 
-# Copie les fichiers nécessaires
-COPY package*.json ./
-RUN npm install
-
+# Copie des fichiers
 COPY . .
 
-# Exposer le port de l'application (à adapter si différent)
-EXPOSE 3000
+# Installation des dépendances bcrypt
+RUN npm rebuild bcrypt --build-from-source
+# Installation des dépendances
+RUN npm install
 
-CMD ["node", "app.js"]
+# Définition de la variable d'environnement par défaut
+ENV PORT=3000
+
+# Démarrage de l'application
+CMD ["node", "server.js"]
+
