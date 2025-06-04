@@ -49,6 +49,7 @@ export class ProductsComponent {
       price: 59.99,
       imageUrl: 'https://picsum.photos/200',
       store: 'Magasin',
+      rating: 2,
     },
     {
       id: 4,
@@ -56,6 +57,7 @@ export class ProductsComponent {
       price: 99.99,
       imageUrl: 'https://picsum.photos/200',
       store: 'Magasin',
+      rating: 2,
     },
   ];
 
