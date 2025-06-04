@@ -9,6 +9,7 @@ interface Product {
   imageUrl: string;
   description: string;
   store: string;
+  rating: number;
 }
 
 @Component({
@@ -30,6 +31,7 @@ export class ProductDetailComponent {
       imageUrl: 'https://picsum.photos/200',
       description: 'Un moule à manqué parfait pour vos gâteaux moelleux.',
       store: 'Marmiton',
+      rating: 5,
     },
     {
       id: 2,
@@ -39,6 +41,7 @@ export class ProductDetailComponent {
       description:
         'Un batteur électrique puissant pour toutes vos préparations.',
       store: 'Marmiton',
+      rating: 5,
     },
     {
       id: 3,
@@ -48,6 +51,7 @@ export class ProductDetailComponent {
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget ligula hendrerit, malesuada elit et, aliquet magna. Integer vitae gravida mauris. Sed ut aliquet sapien. Quisque semper sit amet metus non pretium. Nullam eget cursus tellus. In vitae odio sed ipsum hendrerit aliquet. Pellentesque at mauris vel lectus tincidunt finibus eget fringilla diam. Morbi egestas augue et purus luctus, et commodo urna sodales.',
       store: 'Magasin',
+      rating: 2,
     },
     {
       id: 4,
@@ -57,6 +61,7 @@ export class ProductDetailComponent {
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget ligula hendrerit, malesuada elit et, aliquet magna. Integer vitae gravida mauris. Sed ut aliquet sapien. Quisque semper sit amet metus non pretium. Nullam eget cursus tellus. In vitae odio sed ipsum hendrerit aliquet. Pellentesque at mauris vel lectus tincidunt finibus eget fringilla diam. Morbi egestas augue et purus luctus, et commodo urna sodales.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eget ligula hendrerit, malesuada elit et, aliquet magna. Integer vitae gravida mauris. Sed ut aliquet sapien. Quisque semper sit amet metus non pretium. Nullam eget cursus tellus. In vitae odio sed ipsum hendrerit aliquet. Pellentesque at mauris vel lectus tincidunt finibus eget fringilla diam. Morbi egestas augue et purus luctus, et commodo urna sodales.',
       store: 'Magasin',
+      rating: 2,
     },
   ];
 
