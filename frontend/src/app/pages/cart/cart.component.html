@@ -1,0 +1,11 @@
+<h2>Votre Panier</h2>
+
+<ul *ngIf="cartItems.length > 0; else panierVide">
+  <li *ngFor="let item of cartItems">
+    {{ item.name }} - {{ item.volume }} × {{ item.price }} €
+  </li>
+</ul>
+
+<ng-template #panierVide>
+  <p>Votre panier est vide.</p>
+</ng-template>

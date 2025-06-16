@@ -34,10 +34,10 @@ body {
   color: #333;
 }
 
-.linkNavBar {
+.linkNavBar,
+.login {
   display: flex;
   flex: 1;
-  justify-content: center;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -58,6 +58,13 @@ body {
       background-color: #e84118;
     }
   }
+}
+.linkNavBar {
+  justify-content: center;
+}
+
+.login {
+  justify-content: end;
 }
 
 .cta .btn {

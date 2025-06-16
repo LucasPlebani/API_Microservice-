@@ -1,16 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  imageUrl: string;
-  description: string;
-  store: string;
-  rating: number;
-}
+import { CartService } from '../../service/cart.service';
+import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-product-detail',
@@ -65,7 +57,11 @@ export class ProductDetailComponent {
     },
   ];
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private cartService: CartService
+  ) {}
 
   ngOnInit(): void {
     this.productId = Number(this.route.snapshot.paramMap.get('id'));
@@ -74,5 +70,19 @@ export class ProductDetailComponent {
 
   goBack(): void {
     this.router.navigate(['/products']);
+  }
+
+  addToCart(): void {
+    if (!this.product) return;
+
+    const userId = '1'; // temporaire, tu peux gérer la vraie id plus tard
+
+    this.cartService.addToCart(userId, this.product).subscribe({
+      next: () => alert('Produit ajouté au panier !'),
+      error: (err) => {
+        console.error('Erreur ajout panier', err);
+        alert("Erreur lors de l'ajout au panier");
+      },
+    });
   }
 }
