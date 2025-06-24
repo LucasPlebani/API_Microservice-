@@ -33,4 +33,9 @@ export class CartService {
     };
     return this.http.post(url, cartItem);
   }
+
+  removeFromCartInDataBase(userId: string, productId: number): Observable<any> {
+    const url = `${this.baseUrl}/${userId}/remove/${productId}`;
+    return this.http.delete(url);
+  }
 }

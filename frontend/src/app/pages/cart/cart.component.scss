@@ -1,0 +1,34 @@
+h2 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+
+  li {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    button {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 0.5rem 0.75rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s;
+
+      &:hover {
+        background-color: #c0392b;
+      }
+    }
+  }
+}

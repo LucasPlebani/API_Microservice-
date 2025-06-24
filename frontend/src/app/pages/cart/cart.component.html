@@ -2,7 +2,8 @@
 
 <ul *ngIf="cartItems.length > 0; else panierVide">
   <li *ngFor="let item of cartItems">
-    {{ item.name }} - {{ item.volume }} × {{ item.price }} €
+    {{ item.name }} - {{ item.volume }} × {{ item.price }}€
+    <button (click)="removeFromCart(item)">Suprimer</button>
   </li>
 </ul>
 
