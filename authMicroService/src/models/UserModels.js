@@ -8,7 +8,7 @@ class UserModel {
     email,
     password,
     salt,
-    role = "user", // rôle par défaut
+    role,
   }) {
     this.type = type;
     this.lastName = lastName;
