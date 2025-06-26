@@ -1,23 +1,21 @@
-FROM node:18 as build-stage
-WORKDIR /app
-COPY . .
-RUN npm install && npm run build
+FROM node:18-alpine as build-stage
 
-# Vérification (optionnelle)
-RUN ls -l /app/dist/front-micro-service/browser
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+RUN npm run build --prod
 
 FROM nginx:alpine
-COPY --from=build-stage /app/dist/front-micro-service/browser /usr/share/nginx/html
+
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx/default.conf /etc/nginx/conf.d/
+
+# Copie uniquement le contenu du dossier browser (pas le dossier browser lui-même)
+COPY --from=build-stage /app/dist/front-micro-service/browser/ /usr/share/nginx/html/
+
 EXPOSE 80
 
-# FROM node:18 as build-stage
-# WORKDIR /app
-# COPY . .
-# RUN npm install && npm run build
-
-# # Ajoute une commande pour lister les fichiers après build
-# RUN ls -l /app/dist/front-micro-service
-
-# FROM nginx:alpine
-# COPY --from=build-stage /app/dist/front-micro-service /usr/share/nginx/html
-
+CMD ["nginx", "-g", "daemon off;"]

@@ -1,33 +1,45 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcrypt");
-const User = require("../models/userModels");
+const userCtrl = require("../controllers/userControllers");
+const authMiddleware = require("../../middleware/auth");
 
-const userCtrl = require("../controllers/UserControllers");
+console.log("=== userRouter chargé ===");
 
+// Routes publiques
 router.post("/signup", userCtrl.signup);
 router.post("/login", userCtrl.login);
 
-// router.post("/signup", async (req, res) => {
-//   try {
-//     const { email, password, role } = req.body;
+// Exemple de route protégée accessible à tous les utilisateurs authentifiés
+router.get("/profile", authMiddleware, (req, res) => {
+  // Ici, req.user est disponible grâce au middleware d’authentification
+  res.status(200).json({
+    message: "Profil utilisateur récupéré",
+    user: req.user,
+  });
+});
 
-//     const salt = await bcrypt.genSalt(10);
-//     const hashedPassword = await bcrypt.hash(password, salt);
+// Middleware pour vérifier le rôle
+const authorizeRole = (allowedRoles) => {
+  return (req, res, next) => {
+    if (!allowedRoles.includes(req.user.role)) {
+      return res
+        .status(403)
+        .json({ message: "Accès refusé : rôle non autorisé" });
+    }
+    next();
+  };
+};
 
-//     const newUser = new User({
-//       email,
-//       password: hashedPassword,
-//       salt,
-//       role,
-//     });
-
-//     await newUser.save();
-//     res.status(201).json({ message: "Utilisateur créé avec succès" });
-//   } catch (err) {
-//     console.error("Erreur lors de l’inscription :", err);
-//     res.status(500).json({ error: "Erreur serveur lors de l’inscription" });
-//   }
-// });
+// Exemple de route protégée accessible uniquement aux professionnels (role "store")
+router.get(
+  "/store-data",
+  authMiddleware,
+  authorizeRole(["store"]),
+  (req, res) => {
+    res.status(200).json({
+      message: "Données magasin accessibles uniquement au rôle store",
+    });
+  }
+);
 
 module.exports = router;

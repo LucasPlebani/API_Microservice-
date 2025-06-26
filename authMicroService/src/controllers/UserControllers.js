@@ -2,6 +2,8 @@ const bcrypt = require("bcrypt");
 const UserModel = require("../models/userModels");
 const { generateToken } = require("../../utils/tokenUtils");
 
+console.log("=== userControllers chargé ===");
+
 exports.signup = async (req, res, next) => {
   console.log("abc");
   try {
@@ -78,15 +80,16 @@ exports.signup = async (req, res, next) => {
       role,
     });
 
-    console.log("Nouvel utilisateurrrr :", {
-      type: newUser.type,
-      lastName: newUser.lastName,
-      firstName: newUser.firstName,
-      companyName: newUser.companyName,
-      siren: newUser.siren,
-      email: newUser.email,
-      role: newUser.role,
+    console.log("Nouvel utilisateurrrr : ", {
+      type,
+      lastName,
+      firstName,
+      companyName,
+      siren,
+      email,
+      role,
     });
+    console.log("Nouvel utilisateurzzzz :", JSON.stringify(newUser));
 
     const result = await usersCollection.insertOne(newUser);
 
