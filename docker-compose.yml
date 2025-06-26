@@ -40,6 +40,11 @@ services:
     networks:
       - microservices
 
+  # admin_dashboard:
+  #   build: ./admin-dashboard
+  #   ports:
+  #     - "3001:80"
+
 networks:
   microservices:
     driver: bridge
