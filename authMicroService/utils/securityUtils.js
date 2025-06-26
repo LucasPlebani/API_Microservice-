@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+const crypto = require("crypto");
 
 function generateDeviceFingerprint(req) {
   // navigateur + ip + fuseau  horaire => hashé
@@ -8,4 +8,4 @@ function generateDeviceFingerprint(req) {
   const fingerprintData = `${userAgent}-${ip}-${timezone}`;
   return crypto.createHash("sha256").update(fingerprintData).digest("hex");
 }
-  module.exports = { generateDeviceFingerprint }; 
+module.exports = { generateDeviceFingerprint };

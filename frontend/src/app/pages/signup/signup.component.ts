@@ -11,7 +11,7 @@ import { AuthService } from '../../service/auth.service';
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent {
-  type: string = 'particulier'; // ou 'professionnel'
+  type: string = ''; // ou 'professionnel'
 
   // particuliers
   lastName: string = '';
@@ -41,6 +41,8 @@ export class SignupComponent {
       userData.companyName = this.companyName;
       userData.siren = this.siren;
     }
+
+    console.log('Données envoyées depuis Angular :', userData);
 
     this.auth.signupToApi(userData).subscribe({
       next: () => {},
