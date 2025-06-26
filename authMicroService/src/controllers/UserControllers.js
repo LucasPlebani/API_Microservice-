@@ -1,11 +1,14 @@
 const bcrypt = require("bcrypt");
-const UserModel = require("../models/UserModels");
+const UserModel = require("../models/userModels");
 const { generateToken } = require("../../utils/tokenUtils");
 
 exports.signup = async (req, res, next) => {
+  console.log("abc");
   try {
+    console.log("Requête reçue pour signup, body =", req.body);
     const { type, lastName, firstName, companyName, siren, email, password } =
       req.body;
+    console.log("Body reçuuu :", req.body);
 
     // Validations pour l'inscription
 
@@ -53,6 +56,16 @@ exports.signup = async (req, res, next) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    let role = "user";
+    if (type === "professionnel") {
+      role = "store";
+    }
+    if (type === "particulier") {
+      role = "user";
+    }
+
+    console.log("🎯 Type =", type, "| rôle déterminé =", role);
+
     const newUser = new UserModel({
       type,
       lastName,
@@ -62,21 +75,18 @@ exports.signup = async (req, res, next) => {
       email,
       password: hashedPassword,
       salt,
-      role: "user",
+      role,
     });
-    // Vérification de l'insertion
-    console.log(
-      "Nouvel utilisateur :" +
-        newUser.name +
-        " " +
-        newUser.surname +
-        " " +
-        newUser.email +
-        " " +
-        newUser.password +
-        " " +
-        newUser.salt
-    );
+
+    console.log("Nouvel utilisateurrrr :", {
+      type: newUser.type,
+      lastName: newUser.lastName,
+      firstName: newUser.firstName,
+      companyName: newUser.companyName,
+      siren: newUser.siren,
+      email: newUser.email,
+      role: newUser.role,
+    });
 
     const result = await usersCollection.insertOne(newUser);
 
