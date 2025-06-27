@@ -20,16 +20,18 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     // subscribe sert à lancer la fonction loginToApi
     this.auth.loginToApi(this.email, this.password).subscribe({
-      next: () => {},
-      error: (err) => console.error('Observable emitted an error: ' + err),
-      complete: () => alert('User connected'),
+      next: (response) => {
+        const userId = response.userId || response.user?._id;
+
+        if (userId) {
+          localStorage.setItem('userId', userId);
+          console.log('ID utilisateur stocké :', userId);
+        } else {
+          console.warn('Réponse sans ID utilisateur :', response);
+        }
+      },
+      error: (err) => console.error('Erreur lors de la connexion : ' + err),
+      complete: () => alert('Utilisateur connecté'),
     });
-    // console.log('Email:', this.email);
-    // console.log('Password:', this.password);
   }
 }
-
-// cors fait en sorte que les requêtes soient effectuées (sinon bloquées)
-// faire un service auth pour gérer l'authentification
-// apiUrl = 'http://localhost:3000';
-// faire une fonction ts qui va utiliser la requête de node

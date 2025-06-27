@@ -1,7 +1,5 @@
-fastapi
+fastapi[all]
 motor
 pydantic
 uvicorn
 python-dotenv
-fastapi
-fastapi[all]
