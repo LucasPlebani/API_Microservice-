@@ -5,12 +5,9 @@ const { generateToken } = require("../../utils/tokenUtils");
 console.log("=== userControllers chargé ===");
 
 exports.signup = async (req, res, next) => {
-  console.log("abc");
   try {
-    console.log("Requête reçue pour signup, body =", req.body);
     const { type, lastName, firstName, companyName, siren, email, password } =
       req.body;
-    console.log("Body reçuuu :", req.body);
 
     // Validations pour l'inscription
 
@@ -80,7 +77,7 @@ exports.signup = async (req, res, next) => {
       role,
     });
 
-    console.log("Nouvel utilisateurrrr : ", {
+    console.log("Nouvel utilisateur : ", {
       type,
       lastName,
       firstName,
@@ -135,7 +132,8 @@ exports.login = async (req, res, next) => {
     console.log("Connexion réussie pour l'utilisateur :", user.email);
     return res.status(200).json({
       message: "Connexion réussie !",
-      token: token.insertedId,
+      token: token,
+      userId: user._id.toString(),
     });
   } catch (error) {
     console.error("Erreur lors de la connexion :", error);
