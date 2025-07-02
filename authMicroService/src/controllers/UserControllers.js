@@ -104,8 +104,6 @@ exports.signup = async (req, res, next) => {
 };
 
 exports.login = async (req, res, next) => {
-  console.log("Tentative de connexion :", req.body);
-
   try {
     const usersCollection = req.app.locals.db.collection("users");
     const user = await usersCollection.findOne({ email: req.body.email });

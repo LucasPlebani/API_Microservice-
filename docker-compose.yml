@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   frontend:
     build:
@@ -32,10 +30,12 @@ services:
       - microservices
 
   mongodb:
-    image: mongo:6
+    image: mongo:6.0.13
     container_name: mongodb
     ports:
       - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
     networks:
       - microservices
 
@@ -52,3 +52,6 @@ services:
 networks:
   microservices:
     driver: bridge
+
+volumes:
+  mongodb_data:
