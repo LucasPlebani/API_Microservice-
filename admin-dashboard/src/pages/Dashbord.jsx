@@ -1,11 +1,15 @@
 import React from "react";
+import Button from "../components/ButtonComponent";
+import Header from "../components/header";
 
 function Dashboard() {
   return (
     <div className="admin-dashboard">
+      <Header />
       <h1>Admin Dashboard</h1>
       <p>Welcome to the admin dashboard!</p>
-      <h2> j'ai envi de mourrir</h2>
+      <Button text="Créer un magasin" href="/" />
+   
       {/* Add more admin functionalities here */}
     </div>
   );

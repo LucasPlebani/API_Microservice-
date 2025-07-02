@@ -1,0 +1,16 @@
+.customButton {
+  background-color: #9b2030;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  width: auto;
+  cursor: pointer;
+  margin: 1rem;
+}
+
+.customButton:hover {
+  background-color: #C38B2D;
+}
