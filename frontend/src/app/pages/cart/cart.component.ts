@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CartService } from '../../service/cart.service';
 import { CommonModule } from '@angular/common';
+import { CartService } from '../../service/cart.service';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-cart',
@@ -10,11 +11,20 @@ import { CommonModule } from '@angular/common';
 })
 export class CartComponent implements OnInit {
   cartItems: any[] = [];
-  userId: string = '6839b840457411e525028257'; // TODO : remplacer par un id dynamique plus tard
+  userId: string | null = null;
 
-  constructor(private cartService: CartService) {}
+  constructor(
+    private cartService: CartService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
+    this.userId = this.authService.getUserId();
+    if (!this.userId) {
+      console.error('Utilisateur non connecté ou ID manquant');
+      return;
+    }
+
     this.cartService.getCart(this.userId).subscribe({
       next: (cart) => {
         console.log('Panier reçu :', cart);
@@ -29,7 +39,7 @@ export class CartComponent implements OnInit {
   removeFromCart(item: any): void {
     const productId = item.product_id || item.id;
     this.cartService
-      .removeFromCartInDataBase(this.userId, productId)
+      .removeFromCartInDataBase(this.userId!, productId) // ! : ne sera jamais null
       .subscribe({
         next: () => {
           this.cartItems = this.cartItems.filter(

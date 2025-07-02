@@ -12,11 +12,15 @@
       <li class="cta"><a class="btn" routerLink="/cart">Panier</a></li>
     </ul>
     <ul class="login">
-      <li class="cta">
+      <li *ngIf="!isLoggedIn" class="cta">
         <a class="btn" routerLink="/signup">Inscription</a>
       </li>
-      <li class="cta"><a class="btn" routerLink="/login">Connexion</a></li>
-      <li class="cta"><a class="btn" routerLink="/">Déconnexion</a></li>
+      <li *ngIf="!isLoggedIn" class="cta">
+        <a class="btn" routerLink="/login">Connexion</a>
+      </li>
+      <li *ngIf="isLoggedIn" class="cta">
+        <a class="btn" routerLink="/logout">Déconnexion</a>
+      </li>
     </ul>
   </nav>
 

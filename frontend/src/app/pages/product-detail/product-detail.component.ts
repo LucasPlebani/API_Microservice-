@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../../service/cart.service';
+import { AuthService } from '../../service/auth.service';
 import { Product } from '../../models/product.model';
 
 @Component({
@@ -80,7 +81,8 @@ export class ProductDetailComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private cartService: CartService
+    private cartService: CartService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -95,7 +97,11 @@ export class ProductDetailComponent {
   addToCart(): void {
     if (!this.product) return;
 
-    const userId = '1'; // temporaire, tu peux gérer la vraie id plus tard
+    const userId = this.authService.getUserId();
+    if (!userId) {
+      alert('Vous devez être connecté pour ajouter un produit au panier.');
+      return;
+    }
 
     this.cartService.addToCart(userId, this.product).subscribe({
       next: () => alert('Produit ajouté au panier !'),
