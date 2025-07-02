@@ -13,6 +13,7 @@ async def read_cart(user_id: str):
 
 @router.post("/{user_id}/add")
 async def add_item(user_id: str, item: CartItem):
+    print(f"Requête POST /{user_id}/add reçue avec item : {item}")
     return await add_item_to_cart(user_id, item)
 
 @router.delete("/{user_id}/remove/{product_id}")

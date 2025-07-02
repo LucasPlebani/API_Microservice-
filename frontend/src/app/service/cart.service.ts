@@ -8,7 +8,9 @@ import { Product } from '../models/product.model';
   providedIn: 'root',
 })
 export class CartService {
-  private baseUrl = 'http://localhost:8000/panier/cart';
+  //private baseUrl = 'http://localhost:8000/panier'; // route docker
+  //private baseUrl = 'http://localhost:4200/panier'; // route local
+  private baseUrl = 'http://localhost:8000/panier/cart'; // route backend local
 
   constructor(private http: HttpClient) {}
 
