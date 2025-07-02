@@ -12,6 +12,7 @@ import { AuthService } from '../../service/auth.service';
 export class CartComponent implements OnInit {
   cartItems: any[] = [];
   userId: string | null = null;
+  total: number = 0;
 
   constructor(
     private cartService: CartService,
@@ -30,25 +31,33 @@ export class CartComponent implements OnInit {
         console.log('Panier reçu :', cart);
         console.log('Items reçus :', cart.items);
         this.cartItems = cart.items || [];
+        this.calculateTotal();
       },
       error: (err) =>
         console.error('Erreur lors de la récupération du panier :', err),
     });
   }
 
-  removeFromCart(item: any): void {
+  removeFromCart(item: any, index: number): void {
     const productId = item.product_id || item.id;
     this.cartService
-      .removeFromCartInDataBase(this.userId!, productId) // ! : ne sera jamais null
+      .removeFromCartInDataBase(this.userId!, productId)
       .subscribe({
         next: () => {
-          this.cartItems = this.cartItems.filter(
-            (i) => i.product_id !== productId && i.id !== productId
-          );
+          // Supprimer seulement l'élément à l'index donné
+          this.cartItems.splice(index, 1);
+          this.cartItems = [...this.cartItems];
+          this.calculateTotal();
         },
         error: (err) => {
           console.error("Erreur lors de la suppression de l'article :", err);
         },
       });
+  }
+
+  private calculateTotal(): void {
+    this.total = this.cartItems.reduce((acc, item) => {
+      return acc + item.price * item.volume;
+    }, 0);
   }
 }
