@@ -2,7 +2,7 @@ import React from "react";
 import { FaBell, FaRegUserCircle } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { MdMessage } from "react-icons/md";
-
+import ShopDropdown from "./ShopdropdownHeader";
 import Logo from "../assets/logo_MarioCart.png";
 
 import "./style/header.css";
@@ -22,6 +22,10 @@ function Header() {
             <FaBell className="icon" />
             <FaRegUserCircle className="icon" />
         </div>
+        <div className="shop-dropdown">
+            <ShopDropdown
+            />
+            </div>
     </header>
   );
 }
