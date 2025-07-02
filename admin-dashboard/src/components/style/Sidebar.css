@@ -1,0 +1,43 @@
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 100px;
+  width: 220px;
+  height: 100%;
+  background: #1b263b;
+  color: white;
+  transition: width 0.3s;
+  overflow: hidden;
+}
+
+
+.sidebar.collapsed {
+  width: 80px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  padding: 15px;
+}
+
+.sidebar a {
+  display: flex;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  gap: 10px;
+}
+
+.sidebar a.active {
+  background-color: #415a77;
+}
+
+.icon {
+  font-size: 20px;
+}
+

@@ -1,13 +1,18 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Dashboard from './pages/Dashbord';
-// import Users from './pages/Users';
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./layout/layout";
+import Dashboard from "./pages/Dashboard";
+// import Users from "./pages/Users";
+// import Products from "./pages/Products";
+import "./index.css";
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        {/* <Route path="/users" element={<Users />} /> */}
+        <Route element={<Layout />}>
+          <Route path="/" element={<Dashboard />} />
+          {/* <Route path="/users" element={<Users />} />
+          <Route path="/products" element={<Products />} /> */}
+        </Route>
       </Routes>
     </BrowserRouter>
   );
