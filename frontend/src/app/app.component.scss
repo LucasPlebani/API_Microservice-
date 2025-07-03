@@ -16,10 +16,30 @@ body {
 .navBar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 0.5rem 2rem;
   background-color: #c9c4c4;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .left,
+  .right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  .center {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 1rem;
+  }
+
+  .right {
+    justify-content: flex-end;
+  }
 }
 
 .logo {
@@ -27,6 +47,7 @@ body {
 }
 
 .footer {
+  flex-shrink: 0;
   background-color: #c9c4c4;
   text-align: center;
   padding: 1rem;
