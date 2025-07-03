@@ -2,6 +2,7 @@ import React from "react";
 import Button from "../components/ButtonComponent";
 import Card from "../components/Card";
 import "../components/style/dashboard.css";
+import ProductTable from "../components/ProductTable";
 import { MdOutlineSell, MdEuroSymbol, MdProductionQuantityLimits } from "react-icons/md";
 
 function Dashboard() {
@@ -13,6 +14,9 @@ function Dashboard() {
         <Card title="Chiffre d'affaire Total" description="746.15€" icon={<MdEuroSymbol />} buttonText={"page vente"} />
         <Card title="Top produit" description="sauce Mougou" icon={<MdProductionQuantityLimits />} buttonText={"page produit"} />
       </div>
+
+      <ProductTable />
+      
       <Button text="Créer un magasin" href="/" />
     </div>
   );
