@@ -3,6 +3,7 @@ import Button from "../components/ButtonComponent";
 import Card from "../components/Card";
 import "../components/style/dashboard.css";
 import ProductTable from "../components/ProductTable";
+import PieCategory from "../components/PieCategory";
 import { MdOutlineSell, MdEuroSymbol, MdProductionQuantityLimits } from "react-icons/md";
 
 function Dashboard() {
@@ -16,7 +17,7 @@ function Dashboard() {
       </div>
 
       <ProductTable />
-      
+      <PieCategory />
       <Button text="Créer un magasin" href="/" />
     </div>
   );
