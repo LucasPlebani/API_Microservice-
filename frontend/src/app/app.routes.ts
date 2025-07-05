@@ -8,6 +8,8 @@ import { CartComponent } from './pages/cart/cart.component';
 import { LogoutComponent } from './pages/logout/logout.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { AuthGuard } from './auth.guard';
+import { MentionsLegalesComponent } from './pages/mentions-legales/mentions-legales.component';
+import { CguComponent } from './pages/cgu/cgu.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,4 +20,6 @@ export const routes: Routes = [
   { path: 'cart', component: CartComponent },
   { path: 'logout', component: LogoutComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'mentions-legales', component: MentionsLegalesComponent },
+  { path: 'cgu', component: CguComponent },
 ];
