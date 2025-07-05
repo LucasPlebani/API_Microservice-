@@ -42,7 +42,7 @@ router.get(
 
 router.post("/forgot-password", async (req, res) => {
   const { email } = req.body;
-  const usersCollection = req.userCollection; // ✅ ici
+  const usersCollection = req.userCollection;
 
   const user = await usersCollection.findOne({ email });
   if (!user) return res.status(400).json({ message: "Email introuvable" });
