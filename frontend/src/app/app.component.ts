@@ -20,8 +20,10 @@ export class AppComponent {
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn();
 
-    this.authService.loggedIn$.subscribe((status) => {
-      this.isLoggedIn = status;
+    this.authService.loggedIn$.subscribe((isLogged: boolean) => {
+      setTimeout(() => {
+        this.isLoggedIn = isLogged;
+      });
     });
   }
 }

@@ -1,22 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const userCtrl = require("../controllers/userControllers");
+const userCtrl = require("../controllers/UserControllers");
 const authMiddleware = require("../../middleware/auth");
+const { getProfile } = require("../controllers/UserControllers");
 
-console.log("=== userRouter chargé ===");
+console.log("=== UserRouter chargé ===");
 
 // Routes publiques
 router.post("/signup", userCtrl.signup);
 router.post("/login", userCtrl.login);
 
-// Exemple de route protégée accessible à tous les utilisateurs authentifiés
-router.get("/profile", authMiddleware, (req, res) => {
-  // Ici, req.user est disponible grâce au middleware d’authentification
-  res.status(200).json({
-    message: "Profil utilisateur récupéré",
-    user: req.user,
-  });
-});
+// Affichage du profil
+router.get("/profile", authMiddleware, userCtrl.getProfile);
+
+// Mise à jour du profil
+router.put("/profile", authMiddleware, userCtrl.updateProfile);
 
 // Middleware pour vérifier le rôle
 const authorizeRole = (allowedRoles) => {

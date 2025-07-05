@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap, BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -11,7 +11,10 @@ export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(this.isLoggedIn());
   loggedIn$ = this.loggedIn.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    // Force la synchro de loggedIn avec le localStorage au démarrage
+    this.loggedIn.next(this.isLoggedIn());
+  }
 
   signupToApi(userData: any) {
     return this.http.post(`${this.apiBaseUrl}/signup`, userData);
@@ -22,10 +25,8 @@ export class AuthService {
       .post<any>(`${this.apiBaseUrl}/login`, { email, password })
       .pipe(
         tap((response) => {
-          // Stocker dans localStorage
-          this.userId = response.userId;
-          localStorage.setItem('userId', response.userId);
           localStorage.setItem('token', response.token);
+          localStorage.setItem('userId', response.userId);
           this.loggedIn.next(true);
         })
       );
@@ -42,10 +43,31 @@ export class AuthService {
 
   logout(): void {
     localStorage.clear();
+    this.userId = null;
     this.loggedIn.next(false);
   }
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('userId') && !!localStorage.getItem('token');
+  }
+
+  getUserInfo(userId: string): Observable<any> {
+    return this.http.get(`${this.apiBaseUrl}/user/${userId}`);
+  }
+
+  updateUserInfo(updatedData: any): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put(`${this.apiBaseUrl}/profile`, updatedData, {
+      headers,
+    });
+  }
+
+  getProfile(): Observable<any> {
+    const token = localStorage.getItem('token');
+    console.log('Token envoyé:', token);
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get(`${this.apiBaseUrl}/profile`, { headers });
   }
 }

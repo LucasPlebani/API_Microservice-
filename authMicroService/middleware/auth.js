@@ -14,12 +14,10 @@ const authMiddleware = async (req, res, next) => {
     // 2. Vérification du token et récupération des données du token
     const tokenVerificationResult = await verifyToken(token, req); // Utilisation de verifyToken avec token et req
     if (!tokenVerificationResult.isValid) {
-      return res
-        .status(401)
-        .json({
-          message: "Token invalide ou expiré",
-          error: tokenVerificationResult.error,
-        });
+      return res.status(401).json({
+        message: "Token invalide ou expiré",
+        error: tokenVerificationResult.error,
+      });
     }
 
     // 3. Vérification de la preuve de travail (nonce)
@@ -27,11 +25,6 @@ const authMiddleware = async (req, res, next) => {
     const isValidNonce = verifyNonce(
       {
         userId: tokenPayload.userId,
-        role: tokenPayload.role,
-        issueAt: tokenPayload.issueAt,
-        expiresIn: tokenPayload.expiresIn,
-        scope: tokenPayload.scope,
-        issuer: tokenPayload.issuer,
         deviceFingerprint: tokenPayload.deviceFingerprint,
       },
       tokenPayload.nonce,

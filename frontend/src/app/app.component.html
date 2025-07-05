@@ -1,22 +1,28 @@
 <div class="page-wrapper">
   <nav class="navBar">
-    <img
-      src="/images/MARIO_CART_LOGO_wbg.png"
-      alt="Logo MarioCart"
-      class="logo"
-    />
+    <div class="left">
+      <img
+        src="/images/MARIO_CART_LOGO_wbg.png"
+        alt="Logo MarioCart"
+        class="logo"
+      />
+    </div>
 
-    <ul class="linkNavBar">
+    <ul class="linkNavBar center">
       <li class="cta"><a class="btn" routerLink="/">Accueil</a></li>
       <li class="cta"><a class="btn" routerLink="/products">Produits</a></li>
       <li class="cta"><a class="btn" routerLink="/cart">Panier</a></li>
     </ul>
-    <ul class="login">
+
+    <ul class="login right">
       <li *ngIf="!isLoggedIn" class="cta">
         <a class="btn" routerLink="/signup">Inscription</a>
       </li>
       <li *ngIf="!isLoggedIn" class="cta">
         <a class="btn" routerLink="/login">Connexion</a>
+      </li>
+      <li *ngIf="isLoggedIn" class="cta">
+        <a class="btn" routerLink="/profile">Profil</a>
       </li>
       <li *ngIf="isLoggedIn" class="cta">
         <a class="btn" routerLink="/logout">Déconnexion</a>
