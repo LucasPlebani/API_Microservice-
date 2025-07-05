@@ -23,7 +23,7 @@ export class ResetPasswordComponent {
 
   onSubmit() {
     this.http
-      .post('/auth/reset-password', {
+      .post('http://localhost:3000/auth/reset-password', {
         token: this.token,
         newPassword: this.newPassword,
       })

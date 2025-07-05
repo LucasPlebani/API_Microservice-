@@ -40,6 +40,7 @@ router.get(
   }
 );
 
+// Mot de passe oublié
 router.post("/forgot-password", async (req, res) => {
   const { email } = req.body;
   const usersCollection = req.userCollection;
@@ -69,6 +70,7 @@ router.post("/forgot-password", async (req, res) => {
   });
 });
 
+// Changement du mot de passe
 router.post("/reset-password", async (req, res) => {
   const { token, newPassword } = req.body;
   const user = await usersCollection.findOne({

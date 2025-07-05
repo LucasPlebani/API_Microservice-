@@ -21,15 +21,13 @@ export class ForgotPasswordComponent {
         email: this.email,
       })
       .subscribe({
-        next: (res: any) => {
-          this.message = res.message;
-        },
+        next: () => {},
         error: (err) => {
           alert(err.error?.message || 'Une erreur est survenue.');
         },
         complete: () => {
           alert(
-            'Un lien pour changer votre mot de passe vous a été envoyé par email.'
+            'Un lien pour réinitialiser votre mot de passe vous a été envoyé par email'
           );
         },
       });
