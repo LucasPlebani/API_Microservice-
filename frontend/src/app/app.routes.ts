@@ -10,6 +10,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { AuthGuard } from './auth.guard';
 import { MentionsLegalesComponent } from './pages/mentions-legales/mentions-legales.component';
 import { CguComponent } from './pages/cgu/cgu.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -22,4 +24,6 @@ export const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'mentions-legales', component: MentionsLegalesComponent },
   { path: 'cgu', component: CguComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
 ];

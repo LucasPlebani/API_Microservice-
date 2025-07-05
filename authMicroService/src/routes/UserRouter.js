@@ -40,4 +40,65 @@ router.get(
   }
 );
 
+router.post("/forgot-password", async (req, res) => {
+  const { email } = req.body;
+  const usersCollection = req.userCollection; // ✅ ici
+
+  const user = await usersCollection.findOne({ email });
+  if (!user) return res.status(400).json({ message: "Email introuvable" });
+
+  const token = crypto.randomUUID();
+  const expiration = new Date(Date.now() + 60 * 60 * 1000); // 1h
+
+  await usersCollection.updateOne(
+    { email },
+    {
+      $set: {
+        resetToken: token,
+        resetTokenExpiration: expiration,
+      },
+    }
+  );
+
+  // Simulation de l’envoi de mail
+  console.log(
+    `Lien de réinitialisation : http://localhost:4200/reset-password?token=${token}`
+  );
+  res.json({
+    message: "Un lien de réinitialisation vous a été envoyé par email.",
+  });
+});
+
+router.post("/reset-password", async (req, res) => {
+  const { token, newPassword } = req.body;
+  const user = await usersCollection.findOne({
+    resetToken: token,
+    resetTokenExpiration: { $gt: new Date() },
+  });
+
+  if (!user)
+    return res.status(400).json({ message: "Token invalide ou expiré." });
+
+  const salt = crypto.randomBytes(16).toString("hex");
+  const hashedPassword = crypto
+    .pbkdf2Sync(newPassword, salt, 1000, 64, "sha512")
+    .toString("hex");
+
+  await usersCollection.updateOne(
+    { _id: user._id },
+    {
+      $set: {
+        password: hashedPassword,
+        salt: salt,
+      },
+      $unset: {
+        resetToken: "",
+        resetTokenExpiration: "",
+      },
+    }
+  );
+
+  res.json({ message: "Mot de passe réinitialisé avec succès." });
+});
+
 module.exports = router;
