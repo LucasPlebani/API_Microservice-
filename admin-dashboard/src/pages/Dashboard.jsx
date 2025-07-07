@@ -4,7 +4,7 @@ import Card from "../components/Card";
 import "../components/style/dashboard.css";
 import ProductTable from "../components/ProductTable";
 import PieCategory from "../components/PieCategory";
-import SellPerfomanceGraph from "../components/SellPerfomanceGraph";
+import SellPerfomanceGraph from "../components/SellPerformanceGraph";
 import { MdOutlineSell, MdEuroSymbol, MdProductionQuantityLimits } from "react-icons/md";
 
 function Dashboard() {
@@ -20,7 +20,7 @@ function Dashboard() {
       <ProductTable />
       <div className="graphSection"> 
       <PieCategory />
-      <SellPerfomanceGraph />;
+      <SellPerfomanceGraph />
       </div>
       <Button text="Créer un magasin" href="/" />
     </div>
