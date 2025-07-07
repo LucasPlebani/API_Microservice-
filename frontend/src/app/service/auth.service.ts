@@ -27,6 +27,7 @@ export class AuthService {
         tap((response) => {
           localStorage.setItem('token', response.token);
           localStorage.setItem('userId', response.userId);
+          localStorage.setItem('role', response.role);
           this.loggedIn.next(true);
         })
       );
@@ -36,9 +37,14 @@ export class AuthService {
     if (this.userId) {
       return this.userId;
     }
-    // Récupérer depuis localStorage
+    // Récupérer l'ID depuis localStorage
     this.userId = localStorage.getItem('userId');
     return this.userId;
+  }
+
+  getUserRole(): string | null {
+    // Récupérer le rôle depuis localStorage
+    return localStorage.getItem('role');
   }
 
   logout(): void {
@@ -48,7 +54,11 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('userId') && !!localStorage.getItem('token');
+    return (
+      !!localStorage.getItem('userId') &&
+      !!localStorage.getItem('token') &&
+      !!localStorage.getItem('role')
+    );
   }
 
   getUserInfo(userId: string): Observable<any> {

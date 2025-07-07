@@ -14,6 +14,8 @@ import { AuthService } from './service/auth.service';
 export class AppComponent {
   title = 'MarioKart';
   isLoggedIn = false;
+  userRole: string | null = null;
+  isProfessionnelRole = false;
 
   constructor(private authService: AuthService) {}
 
@@ -25,5 +27,14 @@ export class AppComponent {
         this.isLoggedIn = isLogged;
       });
     });
+
+    if (this.isLoggedIn === true) {
+      this.userRole = this.authService.getUserRole();
+      console.log("Rôle de l'utilisateur récupéré :", this.userRole);
+      if (this.userRole === 'store') {
+        console.log("L'utilisateur est un professionnel");
+        this.isProfessionnelRole = true;
+      }
+    }
   }
 }

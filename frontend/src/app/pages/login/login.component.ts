@@ -28,6 +28,8 @@ export class LoginComponent implements OnInit {
         if (userId) {
           localStorage.setItem('userId', userId);
           this.router.navigate(['/products']);
+        } else if (response.user?.role) {
+          localStorage.setItem('role', response.user?.role || 'user');
         } else {
           console.warn('Réponse sans ID utilisateur :', response);
         }

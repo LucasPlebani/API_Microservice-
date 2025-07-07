@@ -1,11 +1,7 @@
 <div class="page-wrapper">
   <nav class="navBar">
     <div class="left">
-      <img
-        src="/images/MARIO_CART_LOGO_wbg.png"
-        alt="Logo MarioCart"
-        class="logo"
-      />
+      <img src="/images/logo_MarioCart.png" alt="Logo MarioCart" class="logo" />
     </div>
 
     <ul class="linkNavBar center">
@@ -24,6 +20,15 @@
       <li *ngIf="isLoggedIn" class="cta">
         <a class="btn" routerLink="/profile">Profil</a>
       </li>
+      <li *ngIf="isLoggedIn && userRole === 'store'" class="cta">
+        <a
+          class="btn"
+          href="http://localhost:5173/shop/dashboard"
+          target="_blank"
+          >Dashboard</a
+        >
+      </li>
+
       <li *ngIf="isLoggedIn" class="cta">
         <a class="btn" routerLink="/logout">Déconnexion</a>
       </li>

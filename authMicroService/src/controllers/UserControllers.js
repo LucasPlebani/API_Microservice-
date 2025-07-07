@@ -123,12 +123,14 @@ exports.login = async (req, res, next) => {
     }
 
     const token = await generateToken(req, user);
+    const role = user.role;
 
     console.log("Connexion réussie pour l'utilisateur :", user.email);
     return res.status(200).json({
       message: "Connexion réussie !",
       token: token,
       userId: user._id.toString(),
+      role: role,
     });
   } catch (error) {
     console.error("Erreur lors de la connexion :", error);
