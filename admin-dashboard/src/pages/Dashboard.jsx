@@ -14,7 +14,7 @@ function Dashboard() {
       <div className="Cards">
         <Card title="Nombre de vente" description="1,234" icon={<MdOutlineSell />} buttonText={"page vente"} />
         <Card title="Chiffre d'affaire Total" description="746.15€" icon={<MdEuroSymbol />} buttonText={"page vente"} />
-        <Card title="Top produit" description="sauce Mougou" icon={<MdProductionQuantityLimits />} buttonText={"page produit"} />
+        <Card title="Top produit" description="sauce Teriaki" icon={<MdProductionQuantityLimits />} buttonText={"page produit"} />
       </div>
 
       <ProductTable />
