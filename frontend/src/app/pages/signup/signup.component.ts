@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
 
 @Component({
@@ -25,7 +26,7 @@ export class SignupComponent {
   email: string = '';
   password: string = '';
 
-  constructor(private auth: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
     const userData: any = {
@@ -42,10 +43,17 @@ export class SignupComponent {
       userData.siren = this.siren;
     }
 
-    console.log('Données envoyées depuis Angular :', userData);
-
-    this.auth.signupToApi(userData).subscribe({
-      next: () => {},
+    this.authService.signupToApi(userData).subscribe({
+      next: () => {
+        // Une fois inscrit, on se connecte directement
+        this.authService
+          .loginToApi(userData.email, userData.password)
+          .subscribe({
+            next: () => this.router.navigate(['/products']),
+            error: (err) =>
+              console.error('Erreur lors de la connexion automatique :', err),
+          });
+      },
       error: (err) => {
         console.error("Erreur lors de l'inscription :", err);
         alert(

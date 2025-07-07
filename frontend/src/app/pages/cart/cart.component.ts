@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CartService } from '../../service/cart.service';
 import { CommonModule } from '@angular/common';
+import { CartService } from '../../service/cart.service';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-cart',
@@ -10,35 +11,53 @@ import { CommonModule } from '@angular/common';
 })
 export class CartComponent implements OnInit {
   cartItems: any[] = [];
-  userId: string = '6839b840457411e525028257'; // TODO : remplacer par un id dynamique plus tard
+  userId: string | null = null;
+  total: number = 0;
 
-  constructor(private cartService: CartService) {}
+  constructor(
+    private cartService: CartService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
+    this.userId = this.authService.getUserId();
+    if (!this.userId) {
+      console.error('Utilisateur non connecté ou ID manquant');
+      return;
+    }
+
     this.cartService.getCart(this.userId).subscribe({
       next: (cart) => {
         console.log('Panier reçu :', cart);
         console.log('Items reçus :', cart.items);
         this.cartItems = cart.items || [];
+        this.calculateTotal();
       },
       error: (err) =>
         console.error('Erreur lors de la récupération du panier :', err),
     });
   }
 
-  removeFromCart(item: any): void {
+  removeFromCart(item: any, index: number): void {
     const productId = item.product_id || item.id;
     this.cartService
-      .removeFromCartInDataBase(this.userId, productId)
+      .removeFromCartInDataBase(this.userId!, productId)
       .subscribe({
         next: () => {
-          this.cartItems = this.cartItems.filter(
-            (i) => i.product_id !== productId && i.id !== productId
-          );
+          // Supprimer seulement l'élément à l'index donné
+          this.cartItems.splice(index, 1);
+          this.cartItems = [...this.cartItems];
+          this.calculateTotal();
         },
         error: (err) => {
           console.error("Erreur lors de la suppression de l'article :", err);
         },
       });
+  }
+
+  private calculateTotal(): void {
+    this.total = this.cartItems.reduce((acc, item) => {
+      return acc + item.price * item.volume;
+    }, 0);
   }
 }

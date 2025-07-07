@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { MongoClient, ServerApiVersion } = require("mongodb");
-const userRoutes = require("./src/routes/userRouter");
+const userRoutes = require("./src/routes/UserRouter");
 const marchandiseRoutes = require("./src/routes/router");
 const marchandiseController = require("./src/controllers/marchandiseController");
 require("dotenv").config();

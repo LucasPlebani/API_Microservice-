@@ -1,12 +1,19 @@
-version: "3.8"
-
 services:
   frontend:
     build:
       context: ./frontend
     ports:
-      - "80:80"
+      - "4200:80"
+    networks:
+      - microservices
+
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "8080:80"
     depends_on:
+      - frontend
       - auth
       - panier
     networks:
@@ -23,10 +30,12 @@ services:
       - microservices
 
   mongodb:
-    image: mongo:6
+    image: mongo:6.0.13
     container_name: mongodb
     ports:
       - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
     networks:
       - microservices
 
@@ -48,3 +57,6 @@ services:
 networks:
   microservices:
     driver: bridge
+
+volumes:
+  mongodb_data:

@@ -1,19 +1,16 @@
 const bcrypt = require("bcrypt");
 const UserModel = require("../models/userModels");
 const { generateToken } = require("../../utils/tokenUtils");
+const { ObjectId } = require("mongodb");
 
-console.log("=== userControllers chargé ===");
+console.log("=== UserControllers chargé ===");
 
 exports.signup = async (req, res, next) => {
-  console.log("abc");
   try {
-    console.log("Requête reçue pour signup, body =", req.body);
     const { type, lastName, firstName, companyName, siren, email, password } =
       req.body;
-    console.log("Body reçuuu :", req.body);
 
     // Validations pour l'inscription
-
     // si pas de type, pas d'email ou pas de mot de passe
     if (!type || !email || !password) {
       return res
@@ -66,8 +63,6 @@ exports.signup = async (req, res, next) => {
       role = "user";
     }
 
-    console.log("🎯 Type =", type, "| rôle déterminé =", role);
-
     const newUser = new UserModel({
       type,
       lastName,
@@ -80,7 +75,7 @@ exports.signup = async (req, res, next) => {
       role,
     });
 
-    console.log("Nouvel utilisateurrrr : ", {
+    console.log("Nouvel utilisateur : ", {
       type,
       lastName,
       firstName,
@@ -89,7 +84,6 @@ exports.signup = async (req, res, next) => {
       email,
       role,
     });
-    console.log("Nouvel utilisateurzzzz :", JSON.stringify(newUser));
 
     const result = await usersCollection.insertOne(newUser);
 
@@ -107,8 +101,6 @@ exports.signup = async (req, res, next) => {
 };
 
 exports.login = async (req, res, next) => {
-  console.log("Tentative de connexion :", req.body);
-
   try {
     const usersCollection = req.app.locals.db.collection("users");
     const user = await usersCollection.findOne({ email: req.body.email });
@@ -135,10 +127,63 @@ exports.login = async (req, res, next) => {
     console.log("Connexion réussie pour l'utilisateur :", user.email);
     return res.status(200).json({
       message: "Connexion réussie !",
-      token: token.insertedId,
+      token: token,
+      userId: user._id.toString(),
     });
   } catch (error) {
     console.error("Erreur lors de la connexion :", error);
     return res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getProfile = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const user = await req.userCollection.findOne({
+      _id: new ObjectId(userId),
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+    }
+
+    // Ne pas renvoyer password et salt
+    const { password, salt, ...userWithoutPassword } = user;
+
+    res.json(userWithoutPassword);
+  } catch (error) {
+    console.error("Erreur dans getProfile :", error);
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+};
+
+exports.updateProfile = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+
+    const updates = { ...req.body };
+
+    // Supprimer les champs qu'on ne veut PAS modifier
+    delete updates._id;
+    delete updates.password;
+    delete updates.salt;
+    delete updates.role;
+
+    const db = req.app.locals.db;
+    const usersCollection = db.collection("users");
+
+    const result = await usersCollection.updateOne(
+      { _id: new ObjectId(userId) },
+      { $set: updates }
+    );
+
+    if (result.modifiedCount === 0) {
+      return res.status(400).json({ message: "Aucune modification effectuée" });
+    }
+
+    res.status(200).json({ message: "Profil mis à jour avec succès" });
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour du profil :", error);
+    res.status(500).json({ message: "Erreur serveur" });
   }
 };
