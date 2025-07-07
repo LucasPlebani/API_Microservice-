@@ -7,8 +7,13 @@
   </li>
 </ul>
 
-<div *ngIf="cartItems.length > 0" class="total">
-  <strong>Total : {{ total | number : "1.2-2" }} €</strong>
+<div>
+  <div *ngIf="cartItems.length > 0" class="total">
+    <strong>Total : {{ total }} €</strong>
+    <div class="buyButton">
+      <button><a href="/buy-page">Acheter</a></button>
+    </div>
+  </div>
 </div>
 
 <ng-template #panierVide>

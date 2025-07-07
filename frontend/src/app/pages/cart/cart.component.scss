@@ -16,21 +16,27 @@ ul {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    button {
-      background-color: #e74c3c;
-      color: white;
-      border: none;
-      padding: 0.5rem 0.75rem;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background 0.3s;
-
-      &:hover {
-        background-color: #c0392b;
-      }
-    }
   }
+}
+
+button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  transition: background 0.3s;
+
+  &:hover {
+    background-color: #c0392b;
+  }
+  cursor: pointer;
+}
+
+.buyButton {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
 }
 
 .total {

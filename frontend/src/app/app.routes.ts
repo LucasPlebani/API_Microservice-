@@ -10,8 +10,9 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { AuthGuard } from './auth.guard';
 import { MentionsLegalesComponent } from './pages/mentions-legales/mentions-legales.component';
 import { CguComponent } from './pages/cgu/cgu.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { BuyPageComponent } from './pages/buy-page/buy-page.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -26,4 +27,5 @@ export const routes: Routes = [
   { path: 'cgu', component: CguComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'buy-page', component: BuyPageComponent },
 ];
