@@ -13,6 +13,7 @@ async def get_cart(user_id: str):
     return cart
 
 async def add_item_to_cart(user_id: str, item: CartItem):
+    print(f"Ajout item pour user_id={user_id}, item={item}")
     await cart_collection.update_one(
         {"user_id": user_id},
         {"$push": {"items": item.dict()}},
@@ -20,6 +21,10 @@ async def add_item_to_cart(user_id: str, item: CartItem):
     )
     return {"message": "Item added", "item": item}
 
+
 async def remove_item_from_cart(user_id: str, product_id: int) -> bool:
-    result = await cart_collection.delete_one({"user_id": user_id, "product_id": product_id})
-    return result.deleted_count > 0
+    result = await cart_collection.update_one(
+        {"user_id": user_id},
+        {"$pull": {"items": {"product_id": product_id}}}
+    )
+    return result.modified_count > 0

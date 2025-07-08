@@ -1,22 +1,37 @@
 <div class="page-wrapper">
   <nav class="navBar">
-    <img
-      src="/images/MARIO_CART_LOGO_wbg.png"
-      alt="Logo MarioCart"
-      class="logo"
-    />
+    <div class="left">
+      <img src="/images/logo_MarioCart.png" alt="Logo MarioCart" class="logo" />
+    </div>
 
-    <ul class="linkNavBar">
+    <ul class="linkNavBar center">
       <li class="cta"><a class="btn" routerLink="/">Accueil</a></li>
       <li class="cta"><a class="btn" routerLink="/products">Produits</a></li>
       <li class="cta"><a class="btn" routerLink="/cart">Panier</a></li>
     </ul>
-    <ul class="login">
-      <li class="cta">
+
+    <ul class="login right">
+      <li *ngIf="!isLoggedIn" class="cta">
         <a class="btn" routerLink="/signup">Inscription</a>
       </li>
-      <li class="cta"><a class="btn" routerLink="/login">Connexion</a></li>
-      <li class="cta"><a class="btn" routerLink="/">Déconnexion</a></li>
+      <li *ngIf="!isLoggedIn" class="cta">
+        <a class="btn" routerLink="/login">Connexion</a>
+      </li>
+      <li *ngIf="isLoggedIn" class="cta">
+        <a class="btn" routerLink="/profile">Profil</a>
+      </li>
+      <li *ngIf="isLoggedIn && userRole === 'store'" class="cta">
+        <a
+          class="btn"
+          href="http://localhost:5173/shop/dashboard"
+          target="_blank"
+          >Dashboard</a
+        >
+      </li>
+
+      <li *ngIf="isLoggedIn" class="cta">
+        <a class="btn" routerLink="/logout">Déconnexion</a>
+      </li>
     </ul>
   </nav>
 
@@ -25,6 +40,14 @@
   </main>
 
   <footer class="footer">
-    <p>&copy; 2025 MarioCart. Tous droits réservés.</p>
+    <div class="footer-left">
+      <a routerLink="/mentions-legales">Mentions légales</a>
+    </div>
+    <div class="footer-center">
+      <p>&copy; 2025 MarioCart. Tous droits réservés.</p>
+    </div>
+    <div class="footer-right">
+      <a routerLink="/cgu">CGU</a>
+    </div>
   </footer>
 </div>

@@ -1,0 +1,35 @@
+.legal-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  color: #333;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 1.2rem;
+    color: #ff4757;
+    text-align: center;
+  }
+
+  p {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+
+  a {
+    color: #ff4757;
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover {
+      color: #e84118;
+      text-decoration: underline;
+    }
+  }
+}
+
+span {
+  font-weight: bold;
+}

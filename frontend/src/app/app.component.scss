@@ -16,22 +16,67 @@ body {
 .navBar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 0.5rem 2rem;
   background-color: #c9c4c4;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .left,
+  .right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  .center {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 1rem;
+  }
+
+  .right {
+    justify-content: flex-end;
+  }
 }
 
 .logo {
-  height: 75px;
+  height: 80px;
 }
 
 .footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
   background-color: #c9c4c4;
-  text-align: center;
-  padding: 1rem;
-  font-weight: bold;
+  border-top: 1px solid #ddd;
+  font-size: 0.9rem;
+  flex-wrap: wrap;
   color: #333;
+
+  .footer-left,
+  .footer-center,
+  .footer-right {
+    margin: 0.5rem;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  p {
+    margin: 0;
+    text-align: center;
+  }
 }
 
 .linkNavBar,

@@ -33,17 +33,12 @@ async function generateToken(req, user) {
   const db = req.app.locals.db;
   const tokensCollection = db.collection("tokens"); // Utiliser la collection tokens directement
 
-  // Convertir l'ID en string s'il ne l'est pas déjà
-  const userId = typeof user._id === "string" ? user._id : user._id.toString();
-
+  const userId = user._id.toString();
   const deviceFingerprint = generateDeviceFingerprint(req);
   const issueAt = Date.now();
-  const expiresIn = issueAt + 900 * 1000; // 900 pour 15 minutes passage à 10 secondes pour les tests
+  const expiresIn = issueAt + 15 * 60 * 1000; // 15 minutes
 
-  const { nonce, proofOfWork } = generateNonce({
-    userId: userId,
-    deviceFingerprint,
-  });
+  const { nonce, proofOfWork } = generateNonce({ userId, deviceFingerprint });
 
   const role = user.role;
 
@@ -61,49 +56,41 @@ async function generateToken(req, user) {
 
   // Utiliser tokensCollection au lieu de tokenModel
   const result = await tokensCollection.insertOne(tokenPayload);
-  return result;
+  return result.insertedId.toString();
 }
 
 // Vérification du token
 async function verifyToken(tokenId, req) {
-  try {
-    const db = req.app.locals.db;
-    const tokensCollection = db.collection("tokens");
+  const db = req.app.locals.db;
+  const tokensCollection = db.collection("tokens");
 
+  try {
+    // Retrouver le token dans la base
     const tokenData = await tokensCollection.findOne({
       _id: new ObjectId(tokenId),
     });
-    if (!tokenData) return { isValid: false, error: "Token introuvable" };
 
-    const token = tokenData;
-    if (Date.now() > token.expiresIn)
+    if (!tokenData) {
+      return { isValid: false, error: "Token non trouvé" };
+    }
+
+    console.log("Token trouvé:", tokenData);
+    console.log("Expiration:", new Date(tokenData.expiresIn));
+    console.log("Maintenant:", new Date());
+
+    if (Date.now() > tokenData.expiresIn) {
+      await tokensCollection.deleteOne({ _id: tokenData._id }); // nettoyage
       return { isValid: false, error: "Token expiré" };
+    }
 
-    const isValidNonce = verifyNonce(
-      {
-        userId: token.userId,
-        role: token.role,
-        issueAt: token.issueAt,
-        expiresIn: token.expiresIn,
-        scope: token.scope,
-        issuer: token.issuer,
-        deviceFingerprint: token.deviceFingerprint,
-      },
-      token.nonce,
-      token.proofOfWork
-    );
-
-    if (!isValidNonce)
-      return { isValid: false, error: "Nonce ou preuve de travail invalide" };
-
-    const requestFingerprint = generateDeviceFingerprint(req);
-    if (requestFingerprint !== token.deviceFingerprint)
-      return { isValid: false, error: "Empreinte de l'appareil non reconnue" };
-
-    return { isValid: true, payload: token };
-  } catch (error) {
-    console.error("Erreur lors de la vérification du token :", error);
-    return { isValid: false, error: "Erreur serveur" };
+    // Retourner les données utiles
+    return {
+      isValid: true,
+      payload: tokenData,
+    };
+  } catch (err) {
+    console.error("Erreur lors de la vérification du token:", err);
+    return { isValid: false, error: "Erreur interne" };
   }
 }
 

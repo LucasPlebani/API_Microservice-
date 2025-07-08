@@ -97,9 +97,31 @@ h2 {
     &:hover {
       background-color: #e84118;
     }
+  }
+}
 
-    &:active {
-      background-color: #003f87;
+.forgot-password {
+  margin: 0.5rem 0;
+  text-align: right;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 10;
+  position: relative;
+
+  a {
+    color: #ff4757;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    transition: color 0.3s;
+
+    &:hover {
+      color: #e84118;
     }
   }
+}
+
+.forgot-password a {
+  display: inline-block;
+}
+.forgot-password a:hover {
+  text-decoration: none;
 }
