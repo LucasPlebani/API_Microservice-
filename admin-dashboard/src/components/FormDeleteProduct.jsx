@@ -14,11 +14,19 @@ const FormDeleteProduct = ({ onDelete }) => {
         setSelected(found || null);
     };
 
-    const handleDelete = () => {
-        if (selected && onDelete) {
-            onDelete(selected);
-            setSelected(null);
-            setSearch('');
+    const handleDelete = async () => {
+        if (selected) {
+            try {
+                await fetch(`http://localhost:8000/api/marchandises/${selected._id}`, {
+                    method: "DELETE"
+                });
+                alert("Produit supprimé avec succès !");
+                if (onDelete) onDelete(selected); // Optionnel si le parent a besoin d’être informé
+                setSelected(null);
+                setSearch('');
+            } catch (err) {
+                console.error("Erreur lors de la suppression :", err);
+            }
         }
     };
 

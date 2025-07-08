@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const FormAddProduct = ({ onSubmit }) => {
+const FormAddProduct = () => {
     const [product, setProduct] = useState({
         name: '',
         price: '',
@@ -17,18 +17,34 @@ const FormAddProduct = ({ onSubmit }) => {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Préparer les données pour l'envoi (ex: FormData pour l'image)
+
         const formData = new FormData();
         formData.append('name', product.name);
         formData.append('price', product.price);
         formData.append('description', product.description);
+        formData.append('vendeurId', utilisateurConnecteId);
         if (product.image) {
             formData.append('image', product.image);
         }
-        if (onSubmit) {
-            onSubmit(formData);
+
+        try {
+            const response = await fetch("http://localhost:8000/api/marchandises", {
+                method: "POST",
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error("Erreur lors de l'ajout du produit.");
+            }
+
+            alert("Produit ajouté avec succès !");
+            setProduct({ name: '', price: '', description: '', image: null }); // reset
+
+        } catch (err) {
+            console.error("Erreur :", err);
+            alert("Une erreur est survenue lors de l'ajout du produit.");
         }
     };
 

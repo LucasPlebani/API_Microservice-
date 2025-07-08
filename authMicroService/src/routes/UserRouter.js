@@ -41,5 +41,14 @@ router.get(
     });
   }
 );
-
+router.get(
+  "/seller-data",
+  authMiddleware,
+  authorizeRole(["Vendeur"]),
+  (req, res) => {
+    res.status(200).json({
+      message: "Données accessibles uniquement aux vendeurs",
+    });
+  }
+);
 module.exports = router;

@@ -1,7 +1,26 @@
 import React, { useState } from 'react';
 import { mockProducts } from './mockProducts';
 
-const FormEditProduct = ({ onSubmit }) => {
+/**
+ * Appelle l'API pour mettre à jour un produit.
+ * @param {Object} selectedProduct - Le produit à mettre à jour.
+ * @returns {Promise<Response>}
+ */
+const updateProduct = async (selectedProduct) => {
+    return fetch(`http://localhost:8000/api/marchandises/${selectedProduct._id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            nom: selectedProduct.name,
+            prix: selectedProduct.price,
+            description: selectedProduct.description,
+        }),
+    });
+};
+
+const FormEditProduct = () => {
     const [search, setSearch] = useState('');
     const [product, setProduct] = useState(null);
 
@@ -19,10 +38,15 @@ const FormEditProduct = ({ onSubmit }) => {
         setProduct({ ...product, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (product && onSubmit) {
-            onSubmit(product); // ici on envoie les infos mises à jour
+        if (product) {
+            try {
+                await updateProduct(product);
+                alert("Produit mis à jour avec succès !");
+            } catch (err) {
+                console.error("Erreur lors de la mise à jour :", err);
+            }
         }
     };
 

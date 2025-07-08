@@ -1,4 +1,4 @@
-import React from "react";
+import {React, useEffect} from "react";
 import Button from "../components/ButtonComponent";
 import Card from "../components/Card";
 import "../components/style/dashboard.css";
@@ -6,8 +6,22 @@ import ProductTable from "../components/ProductTable";
 import PieCategory from "../components/PieCategory";
 import SellPerfomanceGraph from "../components/SellPerformanceGraph";
 import { MdOutlineSell, MdEuroSymbol, MdProductionQuantityLimits } from "react-icons/md";
+import { useEffect } from "react";
 
 function Dashboard() {
+  useEffect(() => {
+  const fetchProduits = async () => {
+    try {
+      const res = await fetch(`http://localhost:8000/api/marchandises/store/${userId}`);
+      const data = await res.json();
+      setProduits(data);
+    } catch (error) {
+      console.error("Erreur fetch produits vendeur", error);
+    }
+  };
+
+  fetchProduits();
+}, []);
   return (
     <div className="admin-dashboard">
       <h1>Dashboard Magasin </h1>

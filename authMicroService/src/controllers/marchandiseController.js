@@ -39,6 +39,7 @@ exports.createMarchandise = async (req, res) => {
       nom: req.body.nom,
       prix: req.body.prix,
       volume: req.body.volume,
+      storeId: req.body.storeId,
     };
     const createdMarchandise = await marchandiseModel.create(newMarchandise);
     res.status(201).json(createdMarchandise);
@@ -69,7 +70,17 @@ exports.updateMarchandise = async (req, res) => {
       .json({ message: "Erreur lors de la mise à jour de la marchandise" });
   }
 };
-
+exports.getMarchandisesByStore = async (req, res) => {
+  try {
+    const storeId = req.params.storeId;
+    const marchandises = await marchandiseModel.collection
+      .find({ storeId })
+      .toArray();
+    res.json(marchandises);
+  } catch (err) {
+    res.status(500).json({ message: "Erreur lors de la récupération" });
+  }
+};
 exports.deleteMarchandise = async (req, res) => {
   try {
     const id = req.params.id;

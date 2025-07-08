@@ -4,6 +4,7 @@ class Marchandise {
     this.name = name;
     this.prix = prix;
     this.volume = volume;
+    
   }
 }
 
