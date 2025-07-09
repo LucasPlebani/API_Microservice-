@@ -39,7 +39,7 @@ exports.createMarchandise = async (req, res) => {
       nom: req.body.nom,
       prix: req.body.prix,
       volume: req.body.volume,
-      storeId: req.body.storeId,
+      storeId: req.user.id, 
     };
     const createdMarchandise = await marchandiseModel.create(newMarchandise);
     res.status(201).json(createdMarchandise);

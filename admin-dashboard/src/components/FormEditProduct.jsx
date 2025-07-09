@@ -7,7 +7,7 @@ import { mockProducts } from './mockProducts';
  * @returns {Promise<Response>}
  */
 const updateProduct = async (selectedProduct) => {
-    return fetch(`http://localhost:8000/api/marchandises/${selectedProduct._id}`, {
+    return fetch(`/api/marchandises/${selectedProduct._id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",

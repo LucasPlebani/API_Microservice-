@@ -17,36 +17,38 @@ const FormAddProduct = () => {
         }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        const formData = new FormData();
-        formData.append('name', product.name);
-        formData.append('price', product.price);
-        formData.append('description', product.description);
-        formData.append('vendeurId', utilisateurConnecteId);
-        if (product.image) {
-            formData.append('image', product.image);
+    // Récupère l'id du vendeur connecté
+    const utilisateurConnecteId = localStorage.getItem("userId");
+
+    const formData = new FormData();
+    formData.append('name', product.name);
+    formData.append('price', product.price);
+    formData.append('description', product.description);
+    formData.append('vendeurId', utilisateurConnecteId); // <-- correction ici
+    if (product.image) {
+        formData.append('image', product.image);
+    }
+
+    try {
+        const response = await fetch("http://localhost:8000/api/marchandises", {
+            method: "POST",
+            body: formData,
+        });
+        if (!response.ok) {
+            throw new Error("Erreur lors de l'ajout du produit.");
         }
 
-        try {
-            const response = await fetch("http://localhost:8000/api/marchandises", {
-                method: "POST",
-                body: formData,
-            });
+        alert("Produit ajouté avec succès !");
+        setProduct({ name: '', price: '', description: '', image: null }); // reset
 
-            if (!response.ok) {
-                throw new Error("Erreur lors de l'ajout du produit.");
-            }
-
-            alert("Produit ajouté avec succès !");
-            setProduct({ name: '', price: '', description: '', image: null }); // reset
-
-        } catch (err) {
-            console.error("Erreur :", err);
-            alert("Une erreur est survenue lors de l'ajout du produit.");
-        }
-    };
+    } catch (err) {
+        console.error("Erreur :", err);
+        alert("Une erreur est survenue lors de l'ajout du produit.");
+    }
+};
 
     return (
         <form onSubmit={handleSubmit} encType="multipart/form-data" className="product-form">

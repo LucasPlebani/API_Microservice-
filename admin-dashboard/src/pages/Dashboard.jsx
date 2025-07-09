@@ -1,4 +1,4 @@
-import {React, useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../components/ButtonComponent";
 import Card from "../components/Card";
 import "../components/style/dashboard.css";
@@ -6,22 +6,26 @@ import ProductTable from "../components/ProductTable";
 import PieCategory from "../components/PieCategory";
 import SellPerfomanceGraph from "../components/SellPerformanceGraph";
 import { MdOutlineSell, MdEuroSymbol, MdProductionQuantityLimits } from "react-icons/md";
-import { useEffect } from "react";
 
 function Dashboard() {
-  useEffect(() => {
-  const fetchProduits = async () => {
-    try {
-      const res = await fetch(`http://localhost:8000/api/marchandises/store/${userId}`);
-      const data = await res.json();
-      setProduits(data);
-    } catch (error) {
-      console.error("Erreur fetch produits vendeur", error);
-    }
-  };
+  const [produits, setProduits] = useState([]);
+  const userId = localStorage.getItem("userId"); // <-- récupère l'id du vendeur connecté
 
-  fetchProduits();
-}, []);
+  useEffect(() => {
+    const fetchProduits = async () => {
+      if (!userId) return;
+      try {
+        const res = await fetch(`/api/marchandises/store/${userId}`);
+        const data = await res.json();
+        setProduits(data);
+      } catch (error) {
+        console.error("Erreur fetch produits vendeur", error);
+      }
+    };
+
+    fetchProduits();
+  }, [userId]);
+
   return (
     <div className="admin-dashboard">
       <h1>Dashboard Magasin </h1>
@@ -31,10 +35,10 @@ function Dashboard() {
         <Card title="Top produit" description="sauce Teriaki" icon={<MdProductionQuantityLimits />} buttonText={"page produit"} />
       </div>
 
-      <ProductTable />
-      <div className="graphSection"> 
-      <PieCategory />
-      <SellPerfomanceGraph />
+      <ProductTable userId={userId} />
+      <div className="graphSection">
+        <PieCategory />
+        <SellPerfomanceGraph />
       </div>
       <Button text="Créer un magasin" href="/" />
     </div>

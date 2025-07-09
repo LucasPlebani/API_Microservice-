@@ -17,7 +17,7 @@ const FormDeleteProduct = ({ onDelete }) => {
     const handleDelete = async () => {
         if (selected) {
             try {
-                await fetch(`http://localhost:8000/api/marchandises/${selected._id}`, {
+                await fetch(`/api/marchandises/${selected._id}`, {
                     method: "DELETE"
                 });
                 alert("Produit supprimé avec succès !");

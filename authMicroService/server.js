@@ -19,6 +19,12 @@ const client = new MongoClient(uri, {
   },
 });
 
+// // Middleware CORS personnalisé pour autoriser le dashboard React
+// app.use(cors({
+//   origin: "http://localhost:5173", // autorise ton dashboard React
+//   credentials: true
+// }));
+
 // Middleware global
 app.use(express.json());
 app.use(cors());

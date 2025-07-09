@@ -16,14 +16,14 @@ function Sidebar({ isOpen }) {
     <nav className={`sidebar ${isOpen ? "open" : "collapsed"}`}>
       <ul>
         <li>
-          <NavLink to="/dashboard">
+          <NavLink to="/shop/dashboard">
             <FiHome className="icon" />
             {isOpen && <span>Tableau de bord</span>}
           </NavLink>
         </li>
         <li>
         
-          <NavLink to="/products">
+          <NavLink to="/shop/dashboard/products">
             <FiBox className="icon" />
             {isOpen && <span>Produits</span>}
           </NavLink>

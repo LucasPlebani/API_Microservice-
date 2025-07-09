@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const UserModel = require("../models/userModels");
+const UserModel = require("../models/UserModels");
 const { generateToken } = require("../../utils/tokenUtils");
 const { ObjectId } = require("mongodb");
 
