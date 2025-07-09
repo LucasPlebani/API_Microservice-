@@ -13,6 +13,7 @@ import { CguComponent } from './pages/cgu/cgu.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { BuyPageComponent } from './pages/buy-page/buy-page.component';
+import { FlashSaleCardComponent } from './pages/flash-sale-card/flash-sale-card.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -28,4 +29,5 @@ export const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'buy-page', component: BuyPageComponent },
+  { path: 'promotions', component: FlashSaleCardComponent },
 ];
