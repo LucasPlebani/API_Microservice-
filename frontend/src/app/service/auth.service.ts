@@ -29,6 +29,10 @@ export class AuthService {
           localStorage.setItem('userId', response.userId);
           localStorage.setItem('role', response.role);
           this.loggedIn.next(true);
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 100);
         })
       );
   }
