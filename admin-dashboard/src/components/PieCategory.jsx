@@ -13,12 +13,11 @@ function getData() {
   ];
 }
 
-
 const PieCategory = () => {
   const [options, setOptions] = useState({
     data: getData(),
     title: {
-      text: "Category Distribution",
+      text: "Ventes totales",
     },
     series: [
       {
@@ -31,5 +30,4 @@ const PieCategory = () => {
 
   return <AgCharts options={options} />;
 };
-export default PieCategory; 
-
+export default PieCategory;
