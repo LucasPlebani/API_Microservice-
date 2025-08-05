@@ -26,12 +26,7 @@
         <a class="btn" routerLink="/profile">Profil</a>
       </li>
       <li *ngIf="isLoggedIn && userRole === 'store'" class="cta">
-        <a
-          class="btn"
-          href="http://localhost:5173/shop/dashboard"
-          target="_blank"
-          >Dashboard</a
-        >
+        <a class="btn" href="http://localhost:5173/shop/dashboard">Dashboard</a>
       </li>
 
       <li *ngIf="isLoggedIn" class="cta">
