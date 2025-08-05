@@ -1,0 +1,7 @@
+.graphSection{
+    display : grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin-top : 2%;
+    background-color: #dde1e4;
+    padding : 3rem;
+}

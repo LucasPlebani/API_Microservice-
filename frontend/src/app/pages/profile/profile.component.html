@@ -1,0 +1,27 @@
+<section *ngIf="!loading">
+  <h2>Mon profil</h2>
+  <form (ngSubmit)="onSubmit()">
+    <!-- <label>Type : <input [value]="user.type" disabled /></label><br /> -->
+
+    <ng-container *ngIf="user.type === 'particulier'">
+      <label>Nom : <input [(ngModel)]="user.lastName" name="lastName" /></label
+      ><br />
+      <label
+        >Prénom : <input [(ngModel)]="user.firstName" name="firstName" /></label
+      ><br />
+    </ng-container>
+
+    <ng-container *ngIf="user.type === 'professionnel'">
+      <label
+        >Raison sociale :
+        <input [(ngModel)]="user.companyName" name="companyName" /></label
+      ><br />
+      <label>SIREN : <input [(ngModel)]="user.siren" name="siren" /></label
+      ><br />
+    </ng-container>
+
+    <label>Email : <input [(ngModel)]="user.email" name="email" /></label><br />
+
+    <button type="submit">Mettre à jour</button>
+  </form>
+</section>

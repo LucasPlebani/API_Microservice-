@@ -1,0 +1,85 @@
+<div class="connectForm">
+  <h2>Inscription</h2>
+  <form (ngSubmit)="onSubmit()" class="loginForm">
+    <div>
+      <label for="type">Type :</label>
+      <select id="type" [(ngModel)]="type" name="type" required>
+        <option value="particulier">Particulier</option>
+        <option value="professionnel">Professionnel</option>
+      </select>
+    </div>
+
+    <!-- Particulier -->
+    <div *ngIf="type === 'particulier'">
+      <label for="lastName">Nom :</label>
+      <input
+        type="text"
+        id="lastName"
+        [(ngModel)]="lastName"
+        name="lastName"
+        required
+      />
+    </div>
+
+    <div *ngIf="type === 'particulier'">
+      <label for="firstName">Prénom :</label>
+      <input
+        type="text"
+        id="firstName"
+        [(ngModel)]="firstName"
+        name="firstName"
+        required
+      />
+    </div>
+
+    <!-- Professionnel -->
+    <div *ngIf="type === 'professionnel'">
+      <label for="companyName">Raison sociale :</label>
+      <input
+        type="text"
+        id="companyName"
+        [(ngModel)]="companyName"
+        name="companyName"
+        required
+      />
+    </div>
+
+    <div *ngIf="type === 'professionnel'">
+      <label for="siren">SIREN :</label>
+      <input
+        type="text"
+        id="siren"
+        [(ngModel)]="siren"
+        name="siren"
+        pattern="\d{9}"
+        title="Le SIREN doit contenir exactement 9 chiffres"
+        required
+      />
+    </div>
+
+    <!-- Commun -->
+    <div>
+      <label for="email">Email :</label>
+      <input
+        type="email"
+        id="email"
+        [(ngModel)]="email"
+        name="email"
+        required
+      />
+    </div>
+
+    <div>
+      <label for="password">Mot de passe :</label>
+      <input
+        type="password"
+        id="password"
+        [(ngModel)]="password"
+        name="password"
+        required
+      />
+    </div>
+
+    <button type="submit">Valider</button>
+  </form>
+</div>

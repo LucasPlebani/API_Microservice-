@@ -1,0 +1,56 @@
+.Cards{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding : 3% ;
+    border-radius: 20px;
+    justify-items: center;
+        background-color: #dde1e4;
+
+}
+.Card {
+    background-color: #15283c;
+  border-radius: 16px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 70%;
+  height: 300px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  gap: 1.5rem;
+}
+
+.CardIcon {
+  width: 80px;
+  height: 80px;
+  background-color: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.CardIcon svg {
+width: 60px;
+  height: 60px;
+  object-fit: contain;
+  color :#f97316;
+}  
+
+.Card h3 {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.Card p {
+    color: white;
+  font-size: 1.5rem;
+  line-height: 1.6;
+  margin: 0;
+}

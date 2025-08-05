@@ -1,0 +1,62 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "4200:80"
+    networks:
+      - microservices
+
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - frontend
+      - auth
+      - panier
+    networks:
+      - microservices
+
+  auth:
+    build:
+      context: ./authMicroService
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./authMicroService/.env
+    networks:
+      - microservices
+
+  mongodb:
+    image: mongo:6.0.13
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - microservices
+
+  panier:
+    build:
+      context: ./panierMicroService
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./panierMicroService/.env
+    networks:
+      - microservices
+
+  # admin_dashboard:
+  #   build: ./admin-dashboard
+  #   ports:
+  #     - "3001:80"
+
+networks:
+  microservices:
+    driver: bridge
+
+volumes:
+  mongodb_data:

@@ -1,0 +1,58 @@
+.table-container {
+  padding: 20px;
+  margin-top : 2%;
+  max-width: auto;
+    color : black;
+  background-color : #dde1e4;
+  border-radius : 20px;
+}
+
+.table-title {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.search-bar {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #b1a1a1;
+  border-radius: 4px;
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.product-table th,
+.product-table td {
+  border: 1px solid #000000;
+  padding: 10px;
+  text-align: left;
+}
+
+.product-table th {
+  background-color: #f97316;
+}
+
+.product-table tr:hover {
+  background-color: #f97316;
+}
+
+.in-stock {
+  color: green;
+  font-weight: bold;
+}
+
+.out-of-stock {
+  color: red;
+  font-weight: bold;
+}
+
+.no-results {
+  text-align: center;
+  padding: 15px;
+  color: #888;
+}

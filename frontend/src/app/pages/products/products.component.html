@@ -1,0 +1,14 @@
+<div class="products-container">
+  <div
+    class="product-card"
+    *ngFor="let product of products"
+    (click)="goToProductDetails(product.id)"
+  >
+    <img [src]="product.imageUrl" [alt]="product.name" />
+    <div class="product-info">
+      <h3>{{ product.name }}</h3>
+      <p>{{ product.price | currency : "EUR" : "symbol" }}</p>
+      <p>Note : {{ product.rating }}/5</p>
+    </div>
+  </div>
+</div>

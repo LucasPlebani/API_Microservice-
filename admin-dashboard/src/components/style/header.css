@@ -1,0 +1,38 @@
+.admin-header{
+    background-color : #15283c;
+   display: flex;
+    align-items: center;
+    height: 100px;
+    width: 100%;
+
+}
+.logo{
+    width: 100px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    
+}
+
+.header-icons{
+    display: flex;
+    align-items: center;
+    flex: 2;
+    justify-content : end ;
+    gap: 20px;
+    padding-right: 5%;
+}
+.icon{
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+.header-icons :hover {
+    transition: all 0.3s ease-in-out;
+    color :#ff5521;
+}
+.open-menu{
+    background-color: #ff5521;
+    padding : 32px 25px 32px 25px;
+    cursor: pointer;
+}
